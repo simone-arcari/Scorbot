@@ -6,9 +6,9 @@ float xFloor = 580;    // 58cm
 float yFloor = 10;     // 1cm
 float zFloor = 410;    // 41cm
 
-
 float eyeY = 0;
 float eyeX = 0;
+
 
 void setup(){
     size(626,626,P3D);
@@ -19,9 +19,8 @@ void setup(){
     xBase = width/2;
     yBase = 5*(height/6);
     zBase = -180;
-    
-    
 }
+
 
 void draw(){
     background(0);
@@ -47,7 +46,6 @@ void draw(){
     
     
     textSize(25);
-
     fill(0,255,0);  
     text("coordinata y vista = ",10,25); 
     text(eyeY,250,25);
