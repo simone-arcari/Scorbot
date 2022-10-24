@@ -92,6 +92,20 @@ float zOffsetM6 = 8;            // 0.8cm
 // Spostamento in verticale motore6
 float yOffsetM6 = gearHeight-4; // 0.8cm
 
+// Pinza
+float xBlock16 = 40;            // 4cm
+float yBlock16 = 5;             // 0.5cm
+float zBlock16 = 10;            // 1cm
+float xBlock17 = 30;            // 3cm
+float yBlock17 = yBlock16;      // 0.5cm
+float zBlock17 = zBlock16;      // 1cm
+float xBlock18 = 35;            // 3.5cm
+float yBlock18 = yBlock16;      // 0.5cm
+float zBlock18 = zBlock16;      // 1cm
+
+// Variabile per disegnare la pinza
+float omega = PI/2-acos((zBlock17/2)/xBlock17);
+float offsetPinza = zBlock16/2*sin(omega);
 
 // Parametri camera
 float eyeY = 0;
@@ -118,8 +132,7 @@ void setup(){
     thetaFictitious[1] = 0;
     thetaFictitious[2] = PI/2;
     thetaFictitious[3] = PI/2;
-    thetaFictitious[5] = 0;
-    
+    thetaFictitious[5] = 65*PI/180;
     
     theta[0] = 0;
     theta[1] = -60*PI/180;;
@@ -223,10 +236,10 @@ void draw(){
         }
         
         if (key == '6') {
-            if (direction == true && theta[5] < 0) {
+            if (direction == true && theta[5] < 65*PI/180) {
                 theta[5]+= PI/180;
             }
-            if (direction == false && theta[5] > -PI) {
+            if (direction == false && theta[5] > 0) {
                 theta[5]-= PI/180;
             }
         }
@@ -255,6 +268,8 @@ void draw(){
     text(int(180*(theta[3]+thetaFictitious[3])/PI) + "°",250,150);
     text("theta[4]:",10,175);
     text(int(180*(theta[4]+thetaFictitious[4])/PI) + "°",250,175);
+    text("theta[5]:",10,200);
+    text(int(180*(-theta[5]+thetaFictitious[5])/PI) + "°",250,200);
   
     // Pavimento
     fill(#E5E06D);  // Colore del pavimento
@@ -397,6 +412,7 @@ void draw(){
     box(xBlock12,yBlock12,zBlock12);
     translate(xBlock13/2+xBlock12/2,0,0);
     box(xBlock13,yBlock13,zBlock13);
+    pushMatrix();  // Memorizzo il sistema attuale
     translate(0,0,-(zBlock13/2+zOffsetM6));
     box(xBlock14,yBlock14,zBlock14);
     pushMatrix();  // Memorizzo il sistema attuale
@@ -409,8 +425,7 @@ void draw(){
     // Motore6
     fill(#000000);  // Colore motore
     translate(0,-(motorHeight/2+yBlock14/2)-yOffsetM6,0);
-    box(motorDepth,motorHeight,motorWidth);    
-    pushMatrix();  // Memorizzo il sistema attuale
+    box(motorDepth,motorHeight,motorWidth);       
     fill(#A09908);  // Colore ingranaggio
     translate(0,motorHeight/2+gearHeight/2,gearOffset);
     rotateY(theta[5]);  // rotazione ingranaggio pinza
@@ -422,4 +437,44 @@ void draw(){
     rotateY(120*PI/180);  // Torno all'angolo iniziale
     popMatrix();  // Ritorno al sistema di riferimento memorizzato
     /*ricorda il popMatrix qui sopra, serve per disegnare la pinza*/
+    
+    // Pinza
+    fill(#C4C0C0);  // Colore del robot
+    pushMatrix();  // Memorizzo il sistema attuale
+    
+    translate(zBlock16,0,zBlock16);
+    translate(zBlock16/2,yBlock16/2+yBlock13/2,0);
+    rotateY(-theta[5]);
+    translate(+xBlock16/2-zBlock16/2,0,0);
+    box(xBlock16,yBlock16,zBlock16);
+    
+    translate(xBlock16/2-offsetPinza,0,0);
+    rotateY(+theta[5]);
+    rotateY(omega); //rotateY(9.59*PI/180);
+    translate(xBlock17/2,0,0);
+    box(xBlock17,yBlock17,zBlock17);
+    
+    translate(xBlock17/2-offsetPinza,0,0);
+    rotateY(-omega); //rotateY(-9.59*PI/180);
+    translate(xBlock18/2,0,0);
+    box(xBlock18,yBlock18,zBlock18);
+    
+    popMatrix();  // Ritorno al sistema di riferimento memorizzato
+    
+    translate(zBlock16,0,-zBlock16);
+    translate(zBlock16/2,yBlock16/2+yBlock13/2,0);
+    rotateY(theta[5]);
+    translate(+xBlock16/2-zBlock16/2,0,0);
+    box(xBlock16,yBlock16,zBlock16);
+   
+    translate(xBlock16/2-offsetPinza,0,0);
+    rotateY(-theta[5]);
+    rotateY(-omega); //rotateY(-9.59*PI/180);
+    translate(xBlock17/2,0,0);
+    box(xBlock17,yBlock17,zBlock17);
+    
+    translate(xBlock17/2-offsetPinza,0,0);
+    rotateY(omega); //rotateY(9.59*PI/180);
+    translate(xBlock18/2,0,0);
+    box(xBlock18,yBlock18,zBlock18);
 }
