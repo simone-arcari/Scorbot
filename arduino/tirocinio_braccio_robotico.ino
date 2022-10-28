@@ -1,5 +1,13 @@
 #include "robot.h"
 #include "string.h"
+#include <LiquidCrystal.h>
+
+#define RS 2
+#define EN 4
+#define D4 7
+#define D5 8
+#define D6 12
+#define D7 13
 
 #define PWM1 3
 #define PWM2 5
@@ -30,12 +38,15 @@
 #define PROCESSING_ID "PRO04IDE"
 
 point_t pos;
-point_t max = { S1MAX, S2MAX, S3MAX, S4MAX, S5MAX, S6MAX };
-point_t min = { S1MIN, S2MIN, S3MIN, S4MIN, S5MIN, S6MIN };
+//point_t max = { S1MAX, S2MAX, S3MAX, S4MAX, S5MAX, S6MAX };
+//point_t min = { S1MIN, S2MIN, S3MIN, S4MIN, S5MIN, S6MIN };
 pwmpin_t pwm = { PWM1, PWM2, PWM3, PWM4, PWM5, PWM6 };
 
-Robot myRobot = Robot(max, min, pwm);
+//Robot myRobot = Robot(max, min, pwm);
+Robot myRobot = Robot(pwm);
+LiquidCrystal lcd(RS, EN, D4, D5, D6, D7);
 
+/*
 point_t sequence[MAX_POINT_NUM] = {
   { 1000, 1000, 1000, 1000, 1000, 2000 },  // punto #1
   { 1100, 1000, 1000, 1000, 1000, 2000 },  // punto #2
@@ -48,10 +59,11 @@ point_t sequence[MAX_POINT_NUM] = {
   { 1800, 1000, 1000, 1000, 1000, 2000 },  // punto #9
   { 1900, 1000, 1000, 1000, 1000, 2000 }   // punto #10
 };
-
+*/
 int i;
 String id;
 char buffer[32];
+char point_ascii[MOTORS_NUM][4];
 uint32_t buffer32[MAX_SIZE];
 bool loop_flag = true;
 
@@ -59,6 +71,9 @@ bool loop_flag = true;
 void setup() {
 
   Serial.begin(9600);
+  lcd.begin(16, 2);  
+  lcd.print("hello, world!");
+
   pinMode(PIN_LED, OUTPUT);
   digitalWrite(PIN_LED, LOW);
 
@@ -80,19 +95,25 @@ void setup() {
       }
     }
   }
+
+  point_ascii[0][3] = '\0';
+  point_ascii[1][3] = '\0';
+  point_ascii[2][3] = '\0';
+  point_ascii[3][3] = '\0';
+  point_ascii[4][3] = '\0';
+  point_ascii[5][3] = '\0';
 }
 
 void loop() {
 
-  if (Serial.available() >= strlen(PROCESSING_ID)+4*MOTORS_NUM) {
+  if (Serial.available() >= strlen(PROCESSING_ID)+3*MOTORS_NUM) {
     Serial.readBytes(buffer, strlen(PROCESSING_ID)); // implementare lettura di tot caratteri
     id = buffer;
     
     if (id.equals(PROCESSING_ID)) {
-      char point_ascii[MOTORS_NUM][5];
-      
+    
       for(i=0; i<MOTORS_NUM; i++) {
-        Serial.readBytes(&point_ascii[i][0], 4);
+        Serial.readBytes(&point_ascii[i][0], 3);
       }
       
       pos.x1 = atoi(&point_ascii[0][0]);
@@ -101,8 +122,15 @@ void loop() {
       pos.x4 = atoi(&point_ascii[3][0]);
       pos.x5 = atoi(&point_ascii[4][0]);
       pos.x6 = atoi(&point_ascii[5][0]);
-        
-      myRobot.setPosition(pos);
+
+      lcd.clear();
+      lcd.home();
+      lcd.print("pos.x1: ");
+      lcd.print(pos.x1);
+      lcd.setCursor(0,1);
+      lcd.print("str: ");
+      lcd.print(&point_ascii[0][0]);
+      //myRobot.setPosition(pos);
 
       if (Serial.availableForWrite()) {
         Serial.write(ARDUINO_ID);
