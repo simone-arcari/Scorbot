@@ -113,7 +113,7 @@ float eyeX = 0;
 
 // Angoli d'interesse
 float alpha = 0;
-float[] thetaFictitious = new float[6];
+float[] realServoTheta = new float[6];
 float[] theta = new float[6];
 
 boolean direction = true;
@@ -127,12 +127,6 @@ void setup(){
     xBase = width/2;
     yBase = 5*(height/6);
     zBase = -180;
-    
-    thetaFictitious[0] = PI/2;
-    thetaFictitious[1] = 0;
-    thetaFictitious[2] = PI/2;
-    thetaFictitious[3] = PI/2;
-    thetaFictitious[5] = 65*PI/180;
     
     theta[0] = 0;
     theta[1] = -60*PI/180;;
@@ -250,6 +244,15 @@ void draw(){
         yBase = mouseY;
     }
     
+    
+    realServoTheta[0] = theta[0] + PI/2;
+    realServoTheta[1] = -theta[1];
+    realServoTheta[2] = theta[2] + PI/2;
+    realServoTheta[3] = theta[3] + PI/2;
+    realServoTheta[4] = -theta[4];
+    realServoTheta[5] = -theta[5] + 65*PI/180;
+    
+    
     // Parametri stampati su schermo
     textSize(25);
     fill(#00FF00); // Colore parametri camera 
@@ -259,17 +262,17 @@ void draw(){
     text(eyeX,250,50);
     fill(#FF9100); // Colore parametri theta
     text("theta[0]:",10,75);
-    text(int(180*(theta[0]+thetaFictitious[0])/PI) + "°",250,75);
+    text(int(180*(realServoTheta[0])/PI) + "°",250,75);
     text("theta[1]:",10,100);
-    text(int(180*(theta[1])/PI) + "°",250,100);
+    text(int(180*(realServoTheta[1])/PI) + "°",250,100);
     text("theta[2]:",10,125);
-    text(int(180*(theta[2]+thetaFictitious[2])/PI) + "°",250,125);
+    text(int(180*(realServoTheta[2])/PI) + "°",250,125);
     text("theta[3]:",10,150);
-    text(int(180*(theta[3]+thetaFictitious[3])/PI) + "°",250,150);
+    text(int(180*(realServoTheta[3])/PI) + "°",250,150);
     text("theta[4]:",10,175);
-    text(int(180*(theta[4]+thetaFictitious[4])/PI) + "°",250,175);
+    text(int(180*(realServoTheta[4])/PI) + "°",250,175);
     text("theta[5]:",10,200);
-    text(int(180*(-theta[5]+thetaFictitious[5])/PI) + "°",250,200);
+    text(int(180*(realServoTheta[5])/PI) + "°",250,200);
   
     // Pavimento
     fill(#E5E06D);  // Colore del pavimento
