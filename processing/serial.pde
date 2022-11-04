@@ -89,8 +89,27 @@ boolean checkPortName(String name) {
 }
 
 
-void serialSendPositions() {
-  if (ack_flag) {
+void serialSendPositions(float[] angle) {
+  if (ack_flag == true) {
+    for (j=0; j<MOTORS_NUM; j++) {
+      point_ascii = Integer.toString(int(angle[j]));
+
+      if (point_ascii.length() == 2)
+        point_ascii = "0" + point_ascii;
+
+      if (point_ascii.length() == 1)
+        point_ascii = "00" + point_ascii;
+
+      port.write(point_ascii);
+      positionFile.println("punto: " + int(angle[j]));
+      println("punto: " + int(angle[j]) + ", in ascii: " + point_ascii);
+    }
+  }
+}
+
+
+void serialSendFrame() {
+  if (ack_flag == true) {
 
     ack_flag = false;
     port.write(PROCESSING_ID);

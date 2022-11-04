@@ -74,6 +74,8 @@ void draw() {
       for (i=0; i<MOTORS_NUM; i++) {
         realServoTheta[i] =  thetaSign[i]*theta[i] + thetaOffset[i];
       }
+      serialSendPositions(realServoTheta);
+      serialCheckACK();
     } else {
       for (i=0; i<MOTORS_NUM; i++) {
         theta[i] =  (realServoTheta[i]-thetaOffset[i])/thetaSign[i];
@@ -94,7 +96,7 @@ void draw() {
     if (manualControl == false) {
       if (millis()-lastTime >= FRAMES_RATE) {
         lastTime = millis();
-        serialSendPositions();
+        serialSendFrame();
       }
       serialCheckACK();
     }
