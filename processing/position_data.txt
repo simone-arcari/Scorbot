@@ -1,0 +1,1114 @@
+[message] --> coordinate frame: 0
+punto: 59
+punto: 166
+punto: 179
+punto: 175
+punto: 77
+punto: 57
+[message] --> coordinate frame: 1
+punto: 86
+punto: 61
+punto: 145
+punto: 134
+punto: 112
+punto: 34
+[message] --> coordinate frame: 2
+punto: 17
+punto: 27
+punto: 81
+punto: 161
+punto: 33
+punto: 12
+[message] --> coordinate frame: 3
+punto: 125
+punto: 145
+punto: 47
+punto: 20
+punto: 156
+punto: 38
+[message] --> coordinate frame: 4
+punto: 93
+punto: 98
+punto: 130
+punto: 166
+punto: 134
+punto: 4
+[message] --> coordinate frame: 5
+punto: 63
+punto: 133
+punto: 146
+punto: 178
+punto: 88
+punto: 15
+[message] --> coordinate frame: 6
+punto: 94
+punto: 128
+punto: 40
+punto: 16
+punto: 10
+punto: 0
+[message] --> coordinate frame: 7
+punto: 6
+punto: 84
+punto: 24
+punto: 54
+punto: 88
+punto: 23
+[message] --> coordinate frame: 8
+punto: 125
+punto: 56
+punto: 178
+punto: 116
+punto: 45
+punto: 18
+[message] --> coordinate frame: 9
+punto: 171
+punto: 85
+punto: 27
+punto: 31
+punto: 104
+punto: 30
+[message] --> coordinate frame: 0
+punto: 59
+punto: 166
+punto: 179
+punto: 175
+punto: 77
+punto: 57
+[message] --> coordinate frame: 1
+punto: 86
+punto: 61
+punto: 145
+punto: 134
+punto: 112
+punto: 34
+[message] --> coordinate frame: 2
+punto: 17
+punto: 27
+punto: 81
+punto: 161
+punto: 33
+punto: 12
+[message] --> coordinate frame: 3
+punto: 125
+punto: 145
+punto: 47
+punto: 20
+punto: 156
+punto: 38
+[message] --> coordinate frame: 4
+punto: 93
+punto: 98
+punto: 130
+punto: 166
+punto: 134
+punto: 4
+[message] --> coordinate frame: 5
+punto: 63
+punto: 133
+punto: 146
+punto: 178
+punto: 88
+punto: 15
+[message] --> coordinate frame: 6
+punto: 94
+punto: 128
+punto: 40
+punto: 16
+punto: 10
+punto: 0
+[message] --> coordinate frame: 7
+punto: 6
+punto: 84
+punto: 24
+punto: 54
+punto: 88
+punto: 23
+[message] --> coordinate frame: 8
+punto: 125
+punto: 56
+punto: 178
+punto: 116
+punto: 45
+punto: 18
+[message] --> coordinate frame: 9
+punto: 171
+punto: 85
+punto: 27
+punto: 31
+punto: 104
+punto: 30
+[message] --> coordinate frame: 0
+punto: 59
+punto: 166
+punto: 179
+punto: 175
+punto: 77
+punto: 57
+[message] --> coordinate frame: 1
+punto: 86
+punto: 61
+punto: 145
+punto: 134
+punto: 112
+punto: 34
+[message] --> coordinate frame: 2
+punto: 17
+punto: 27
+punto: 81
+punto: 161
+punto: 33
+punto: 12
+[message] --> coordinate frame: 3
+punto: 125
+punto: 145
+punto: 47
+punto: 20
+punto: 156
+punto: 38
+[message] --> coordinate frame: 4
+punto: 93
+punto: 98
+punto: 130
+punto: 166
+punto: 134
+punto: 4
+[message] --> coordinate frame: 5
+punto: 63
+punto: 133
+punto: 146
+punto: 178
+punto: 88
+punto: 15
+[message] --> coordinate frame: 6
+punto: 94
+punto: 128
+punto: 40
+punto: 16
+punto: 10
+punto: 0
+[message] --> coordinate frame: 7
+punto: 6
+punto: 84
+punto: 24
+punto: 54
+punto: 88
+punto: 23
+[message] --> coordinate frame: 8
+punto: 125
+punto: 56
+punto: 178
+punto: 116
+punto: 45
+punto: 18
+[message] --> coordinate frame: 9
+punto: 171
+punto: 85
+punto: 27
+punto: 31
+punto: 104
+punto: 30
+[message] --> coordinate frame: 0
+punto: 59
+punto: 166
+punto: 179
+punto: 175
+punto: 77
+punto: 57
+[message] --> coordinate frame: 1
+punto: 86
+punto: 61
+punto: 145
+punto: 134
+punto: 112
+punto: 34
+[message] --> coordinate frame: 2
+punto: 17
+punto: 27
+punto: 81
+punto: 161
+punto: 33
+punto: 12
+[message] --> coordinate frame: 3
+punto: 125
+punto: 145
+punto: 47
+punto: 20
+punto: 156
+punto: 38
+[message] --> coordinate frame: 4
+punto: 93
+punto: 98
+punto: 130
+punto: 166
+punto: 134
+punto: 4
+[message] --> coordinate frame: 5
+punto: 63
+punto: 133
+punto: 146
+punto: 178
+punto: 88
+punto: 15
+[message] --> coordinate frame: 6
+punto: 94
+punto: 128
+punto: 40
+punto: 16
+punto: 10
+punto: 0
+[message] --> coordinate frame: 7
+punto: 6
+punto: 84
+punto: 24
+punto: 54
+punto: 88
+punto: 23
+[message] --> coordinate frame: 8
+punto: 125
+punto: 56
+punto: 178
+punto: 116
+punto: 45
+punto: 18
+[message] --> coordinate frame: 9
+punto: 171
+punto: 85
+punto: 27
+punto: 31
+punto: 104
+punto: 30
+[message] --> coordinate frame: 0
+punto: 59
+punto: 166
+punto: 179
+punto: 175
+punto: 77
+punto: 57
+[message] --> coordinate frame: 1
+punto: 86
+punto: 61
+punto: 145
+punto: 134
+punto: 112
+punto: 34
+[message] --> coordinate frame: 2
+punto: 17
+punto: 27
+punto: 81
+punto: 161
+punto: 33
+punto: 12
+[message] --> coordinate frame: 3
+punto: 125
+punto: 145
+punto: 47
+punto: 20
+punto: 156
+punto: 38
+[message] --> coordinate frame: 4
+punto: 93
+punto: 98
+punto: 130
+punto: 166
+punto: 134
+punto: 4
+[message] --> coordinate frame: 5
+punto: 63
+punto: 133
+punto: 146
+punto: 178
+punto: 88
+punto: 15
+[message] --> coordinate frame: 6
+punto: 94
+punto: 128
+punto: 40
+punto: 16
+punto: 10
+punto: 0
+[message] --> coordinate frame: 7
+punto: 6
+punto: 84
+punto: 24
+punto: 54
+punto: 88
+punto: 23
+[message] --> coordinate frame: 8
+punto: 125
+punto: 56
+punto: 178
+punto: 116
+punto: 45
+punto: 18
+[message] --> coordinate frame: 9
+punto: 171
+punto: 85
+punto: 27
+punto: 31
+punto: 104
+punto: 30
+[message] --> coordinate frame: 0
+punto: 59
+punto: 166
+punto: 179
+punto: 175
+punto: 77
+punto: 57
+[message] --> coordinate frame: 1
+punto: 86
+punto: 61
+punto: 145
+punto: 134
+punto: 112
+punto: 34
+[message] --> coordinate frame: 2
+punto: 17
+punto: 27
+punto: 81
+punto: 161
+punto: 33
+punto: 12
+[message] --> coordinate frame: 3
+punto: 125
+punto: 145
+punto: 47
+punto: 20
+punto: 156
+punto: 38
+[message] --> coordinate frame: 4
+punto: 93
+punto: 98
+punto: 130
+punto: 166
+punto: 134
+punto: 4
+[message] --> coordinate frame: 5
+punto: 63
+punto: 133
+punto: 146
+punto: 178
+punto: 88
+punto: 15
+[message] --> coordinate frame: 6
+punto: 94
+punto: 128
+punto: 40
+punto: 16
+punto: 10
+punto: 0
+[message] --> coordinate frame: 7
+punto: 6
+punto: 84
+punto: 24
+punto: 54
+punto: 88
+punto: 23
+[message] --> coordinate frame: 8
+punto: 125
+punto: 56
+punto: 178
+punto: 116
+punto: 45
+punto: 18
+[message] --> coordinate frame: 9
+punto: 171
+punto: 85
+punto: 27
+punto: 31
+punto: 104
+punto: 30
+[message] --> coordinate frame: 0
+punto: 59
+punto: 166
+punto: 179
+punto: 175
+punto: 77
+punto: 57
+[message] --> coordinate frame: 1
+punto: 86
+punto: 61
+punto: 145
+punto: 134
+punto: 112
+punto: 34
+[message] --> coordinate frame: 2
+punto: 17
+punto: 27
+punto: 81
+punto: 161
+punto: 33
+punto: 12
+[message] --> coordinate frame: 3
+punto: 125
+punto: 145
+punto: 47
+punto: 20
+punto: 156
+punto: 38
+[message] --> coordinate frame: 4
+punto: 93
+punto: 98
+punto: 130
+punto: 166
+punto: 134
+punto: 4
+[message] --> coordinate frame: 5
+punto: 63
+punto: 133
+punto: 146
+punto: 178
+punto: 88
+punto: 15
+[message] --> coordinate frame: 6
+punto: 94
+punto: 128
+punto: 40
+punto: 16
+punto: 10
+punto: 0
+[message] --> coordinate frame: 7
+punto: 6
+punto: 84
+punto: 24
+punto: 54
+punto: 88
+punto: 23
+[message] --> coordinate frame: 8
+punto: 125
+punto: 56
+punto: 178
+punto: 116
+punto: 45
+punto: 18
+[message] --> coordinate frame: 9
+punto: 171
+punto: 85
+punto: 27
+punto: 31
+punto: 104
+punto: 30
+[message] --> coordinate frame: 0
+punto: 59
+punto: 166
+punto: 179
+punto: 175
+punto: 77
+punto: 57
+[message] --> coordinate frame: 1
+punto: 86
+punto: 61
+punto: 145
+punto: 134
+punto: 112
+punto: 34
+[message] --> coordinate frame: 2
+punto: 17
+punto: 27
+punto: 81
+punto: 161
+punto: 33
+punto: 12
+[message] --> coordinate frame: 3
+punto: 125
+punto: 145
+punto: 47
+punto: 20
+punto: 156
+punto: 38
+[message] --> coordinate frame: 4
+punto: 93
+punto: 98
+punto: 130
+punto: 166
+punto: 134
+punto: 4
+[message] --> coordinate frame: 5
+punto: 63
+punto: 133
+punto: 146
+punto: 178
+punto: 88
+punto: 15
+[message] --> coordinate frame: 6
+punto: 94
+punto: 128
+punto: 40
+punto: 16
+punto: 10
+punto: 0
+[message] --> coordinate frame: 7
+punto: 6
+punto: 84
+punto: 24
+punto: 54
+punto: 88
+punto: 23
+[message] --> coordinate frame: 8
+punto: 125
+punto: 56
+punto: 178
+punto: 116
+punto: 45
+punto: 18
+[message] --> coordinate frame: 9
+punto: 171
+punto: 85
+punto: 27
+punto: 31
+punto: 104
+punto: 30
+[message] --> coordinate frame: 0
+punto: 59
+punto: 166
+punto: 179
+punto: 175
+punto: 77
+punto: 57
+[message] --> coordinate frame: 1
+punto: 86
+punto: 61
+punto: 145
+punto: 134
+punto: 112
+punto: 34
+[message] --> coordinate frame: 2
+punto: 17
+punto: 27
+punto: 81
+punto: 161
+punto: 33
+punto: 12
+[message] --> coordinate frame: 3
+punto: 125
+punto: 145
+punto: 47
+punto: 20
+punto: 156
+punto: 38
+[message] --> coordinate frame: 4
+punto: 93
+punto: 98
+punto: 130
+punto: 166
+punto: 134
+punto: 4
+[message] --> coordinate frame: 5
+punto: 63
+punto: 133
+punto: 146
+punto: 178
+punto: 88
+punto: 15
+[message] --> coordinate frame: 6
+punto: 94
+punto: 128
+punto: 40
+punto: 16
+punto: 10
+punto: 0
+[message] --> coordinate frame: 7
+punto: 6
+punto: 84
+punto: 24
+punto: 54
+punto: 88
+punto: 23
+[message] --> coordinate frame: 8
+punto: 125
+punto: 56
+punto: 178
+punto: 116
+punto: 45
+punto: 18
+[message] --> coordinate frame: 9
+punto: 171
+punto: 85
+punto: 27
+punto: 31
+punto: 104
+punto: 30
+[message] --> coordinate frame: 0
+punto: 59
+punto: 166
+punto: 179
+punto: 175
+punto: 77
+punto: 57
+[message] --> coordinate frame: 1
+punto: 86
+punto: 61
+punto: 145
+punto: 134
+punto: 112
+punto: 34
+[message] --> coordinate frame: 2
+punto: 17
+punto: 27
+punto: 81
+punto: 161
+punto: 33
+punto: 12
+[message] --> coordinate frame: 3
+punto: 125
+punto: 145
+punto: 47
+punto: 20
+punto: 156
+punto: 38
+[message] --> coordinate frame: 4
+punto: 93
+punto: 98
+punto: 130
+punto: 166
+punto: 134
+punto: 4
+[message] --> coordinate frame: 5
+punto: 63
+punto: 133
+punto: 146
+punto: 178
+punto: 88
+punto: 15
+[message] --> coordinate frame: 6
+punto: 94
+punto: 128
+punto: 40
+punto: 16
+punto: 10
+punto: 0
+[message] --> coordinate frame: 7
+punto: 6
+punto: 84
+punto: 24
+punto: 54
+punto: 88
+punto: 23
+[message] --> coordinate frame: 8
+punto: 125
+punto: 56
+punto: 178
+punto: 116
+punto: 45
+punto: 18
+[message] --> coordinate frame: 9
+punto: 171
+punto: 85
+punto: 27
+punto: 31
+punto: 104
+punto: 30
+[message] --> coordinate frame: 0
+punto: 59
+punto: 166
+punto: 179
+punto: 175
+punto: 77
+punto: 57
+[message] --> coordinate frame: 1
+punto: 86
+punto: 61
+punto: 145
+punto: 134
+punto: 112
+punto: 34
+[message] --> coordinate frame: 2
+punto: 17
+punto: 27
+punto: 81
+punto: 161
+punto: 33
+punto: 12
+[message] --> coordinate frame: 3
+punto: 125
+punto: 145
+punto: 47
+punto: 20
+punto: 156
+punto: 38
+[message] --> coordinate frame: 4
+punto: 93
+punto: 98
+punto: 130
+punto: 166
+punto: 134
+punto: 4
+[message] --> coordinate frame: 5
+punto: 63
+punto: 133
+punto: 146
+punto: 178
+punto: 88
+punto: 15
+[message] --> coordinate frame: 6
+punto: 94
+punto: 128
+punto: 40
+punto: 16
+punto: 10
+punto: 0
+[message] --> coordinate frame: 7
+punto: 6
+punto: 84
+punto: 24
+punto: 54
+punto: 88
+punto: 23
+[message] --> coordinate frame: 8
+punto: 125
+punto: 56
+punto: 178
+punto: 116
+punto: 45
+punto: 18
+[message] --> coordinate frame: 9
+punto: 171
+punto: 85
+punto: 27
+punto: 31
+punto: 104
+punto: 30
+[message] --> coordinate frame: 0
+punto: 59
+punto: 166
+punto: 179
+punto: 175
+punto: 77
+punto: 57
+[message] --> coordinate frame: 1
+punto: 86
+punto: 61
+punto: 145
+punto: 134
+punto: 112
+punto: 34
+[message] --> coordinate frame: 2
+punto: 17
+punto: 27
+punto: 81
+punto: 161
+punto: 33
+punto: 12
+[message] --> coordinate frame: 3
+punto: 125
+punto: 145
+punto: 47
+punto: 20
+punto: 156
+punto: 38
+[message] --> coordinate frame: 4
+punto: 93
+punto: 98
+punto: 130
+punto: 166
+punto: 134
+punto: 4
+[message] --> coordinate frame: 5
+punto: 63
+punto: 133
+punto: 146
+punto: 178
+punto: 88
+punto: 15
+[message] --> coordinate frame: 6
+punto: 94
+punto: 128
+punto: 40
+punto: 16
+punto: 10
+punto: 0
+[message] --> coordinate frame: 7
+punto: 6
+punto: 84
+punto: 24
+punto: 54
+punto: 88
+punto: 23
+[message] --> coordinate frame: 8
+punto: 125
+punto: 56
+punto: 178
+punto: 116
+punto: 45
+punto: 18
+[message] --> coordinate frame: 9
+punto: 171
+punto: 85
+punto: 27
+punto: 31
+punto: 104
+punto: 30
+[message] --> coordinate frame: 0
+punto: 59
+punto: 166
+punto: 179
+punto: 175
+punto: 77
+punto: 57
+[message] --> coordinate frame: 1
+punto: 86
+punto: 61
+punto: 145
+punto: 134
+punto: 112
+punto: 34
+[message] --> coordinate frame: 2
+punto: 17
+punto: 27
+punto: 81
+punto: 161
+punto: 33
+punto: 12
+[message] --> coordinate frame: 3
+punto: 125
+punto: 145
+punto: 47
+punto: 20
+punto: 156
+punto: 38
+[message] --> coordinate frame: 4
+punto: 93
+punto: 98
+punto: 130
+punto: 166
+punto: 134
+punto: 4
+[message] --> coordinate frame: 5
+punto: 63
+punto: 133
+punto: 146
+punto: 178
+punto: 88
+punto: 15
+[message] --> coordinate frame: 6
+punto: 94
+punto: 128
+punto: 40
+punto: 16
+punto: 10
+punto: 0
+[message] --> coordinate frame: 7
+punto: 6
+punto: 84
+punto: 24
+punto: 54
+punto: 88
+punto: 23
+[message] --> coordinate frame: 8
+punto: 125
+punto: 56
+punto: 178
+punto: 116
+punto: 45
+punto: 18
+[message] --> coordinate frame: 9
+punto: 171
+punto: 85
+punto: 27
+punto: 31
+punto: 104
+punto: 30
+[message] --> coordinate frame: 0
+punto: 59
+punto: 166
+punto: 179
+punto: 175
+punto: 77
+punto: 57
+[message] --> coordinate frame: 1
+punto: 86
+punto: 61
+punto: 145
+punto: 134
+punto: 112
+punto: 34
+[message] --> coordinate frame: 2
+punto: 17
+punto: 27
+punto: 81
+punto: 161
+punto: 33
+punto: 12
+[message] --> coordinate frame: 3
+punto: 125
+punto: 145
+punto: 47
+punto: 20
+punto: 156
+punto: 38
+[message] --> coordinate frame: 4
+punto: 93
+punto: 98
+punto: 130
+punto: 166
+punto: 134
+punto: 4
+[message] --> coordinate frame: 5
+punto: 63
+punto: 133
+punto: 146
+punto: 178
+punto: 88
+punto: 15
+[message] --> coordinate frame: 6
+punto: 94
+punto: 128
+punto: 40
+punto: 16
+punto: 10
+punto: 0
+[message] --> coordinate frame: 7
+punto: 6
+punto: 84
+punto: 24
+punto: 54
+punto: 88
+punto: 23
+[message] --> coordinate frame: 8
+punto: 125
+punto: 56
+punto: 178
+punto: 116
+punto: 45
+punto: 18
+[message] --> coordinate frame: 9
+punto: 171
+punto: 85
+punto: 27
+punto: 31
+punto: 104
+punto: 30
+[message] --> coordinate frame: 0
+punto: 59
+punto: 166
+punto: 179
+punto: 175
+punto: 77
+punto: 57
+[message] --> coordinate frame: 1
+punto: 86
+punto: 61
+punto: 145
+punto: 134
+punto: 112
+punto: 34
+[message] --> coordinate frame: 2
+punto: 17
+punto: 27
+punto: 81
+punto: 161
+punto: 33
+punto: 12
+[message] --> coordinate frame: 3
+punto: 125
+punto: 145
+punto: 47
+punto: 20
+punto: 156
+punto: 38
+[message] --> coordinate frame: 4
+punto: 93
+punto: 98
+punto: 130
+punto: 166
+punto: 134
+punto: 4
+[message] --> coordinate frame: 5
+punto: 63
+punto: 133
+punto: 146
+punto: 178
+punto: 88
+punto: 15
+[message] --> coordinate frame: 6
+punto: 94
+punto: 128
+punto: 40
+punto: 16
+punto: 10
+punto: 0
+[message] --> coordinate frame: 7
+punto: 6
+punto: 84
+punto: 24
+punto: 54
+punto: 88
+punto: 23
+[message] --> coordinate frame: 8
+punto: 125
+punto: 56
+punto: 178
+punto: 116
+punto: 45
+punto: 18
+[message] --> coordinate frame: 9
+punto: 171
+punto: 85
+punto: 27
+punto: 31
+punto: 104
+punto: 30
+[message] --> coordinate frame: 0
+punto: 59
+punto: 166
+punto: 179
+punto: 175
+punto: 77
+punto: 57
+[message] --> coordinate frame: 1
+punto: 86
+punto: 61
+punto: 145
+punto: 134
+punto: 112
+punto: 34
+[message] --> coordinate frame: 2
+punto: 17
+punto: 27
+punto: 81
+punto: 161
+punto: 33
+punto: 12
+[message] --> coordinate frame: 3
+punto: 125
+punto: 145
+punto: 47
+punto: 20
+punto: 156
+punto: 38
+[message] --> coordinate frame: 4
+punto: 93
+punto: 98
+punto: 130
+punto: 166
+punto: 134
+punto: 4
+[message] --> coordinate frame: 5
+punto: 63
+punto: 133
+punto: 146
+punto: 178
+punto: 88
+punto: 15
+[message] --> coordinate frame: 6
+punto: 94
+punto: 128
+punto: 40
+punto: 16
+punto: 10
+punto: 0
+[message] --> coordinate frame: 7
+punto: 6
+punto: 84
+punto: 24
+punto: 54
+punto: 88
+punto: 23
+[message] --> coordinate frame: 8
+punto: 125
+punto: 56
+punto: 178
+punto: 116
+punto: 45
+punto: 18
+[message] --> coordinat
