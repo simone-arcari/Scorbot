@@ -1,6 +1,7 @@
 #include "robot.h"
 #include "string.h"
 #include <LiquidCrystal.h>
+#include <Servo.h>
 
 #define RS 2
 #define EN 4
@@ -43,7 +44,15 @@ point_t pos;
 pwmpin_t pwm = { PWM1, PWM2, PWM3, PWM4, PWM5, PWM6 };
 
 //Robot myRobot = Robot(max, min, pwm);
-Robot myRobot = Robot(pwm);
+//Robot myRobot = Robot(pwm);
+
+Servo s1;
+Servo s2;
+Servo s3;
+Servo s4;
+Servo s5;
+Servo s6;
+
 LiquidCrystal lcd(RS, EN, D4, D5, D6, D7);
 
 /*
@@ -73,6 +82,25 @@ void setup() {
   Serial.begin(9600);
   lcd.begin(16, 2);  
   lcd.print("hello, world!");
+
+
+
+  /*DEBUG*/
+  pinMode(PWM1, OUTPUT);
+  pinMode(PWM2, OUTPUT);
+  pinMode(PWM3, OUTPUT);
+  pinMode(PWM4, OUTPUT);
+  pinMode(PWM5, OUTPUT);
+  pinMode(PWM6, OUTPUT);
+
+  s1.attach(PWM1);
+  s2.attach(PWM2);
+  s3.attach(PWM3);
+  s4.attach(PWM4);
+  s5.attach(PWM5);
+  s6.attach(PWM6);
+
+
 
   pinMode(PIN_LED, OUTPUT);
   digitalWrite(PIN_LED, LOW);
@@ -125,12 +153,28 @@ void loop() {
 
       lcd.clear();
       lcd.home();
-      lcd.print("pos.x1: ");
-      lcd.print(pos.x1);
-      lcd.setCursor(0,1);
-      lcd.print("str: ");
+
       lcd.print(&point_ascii[0][0]);
+      lcd.print("-");
+      lcd.print(&point_ascii[1][0]);
+      lcd.print("-");
+      lcd.print(&point_ascii[2][0]);
+
+      lcd.setCursor(0,1);
+
+      lcd.print(&point_ascii[3][0]);
+      lcd.print("-");
+      lcd.print(&point_ascii[4][0]);
+      lcd.print("-");
+      lcd.print(&point_ascii[5][0]);
+
       //myRobot.setPosition(pos);
+      s1.write(pos.x1);
+      s2.write(pos.x2);
+      s3.write(pos.x3);
+      s4.write(pos.x4);
+      s5.write(pos.x5);
+      s6.write(pos.x6);
 
       if (Serial.availableForWrite()) {
         Serial.write(ARDUINO_ID);
