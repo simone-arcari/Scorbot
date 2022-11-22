@@ -23,7 +23,7 @@ String portName;                                                                
 String buffer;                                                                                                  // buffer d'appoggio per letture e scritture varie
 String ARDUINO_ID = "ARO22ARL";                                                                                 // codice identificazione della scheda arduino
 String PROCESSING_ID = "PRO04IDE";                                                                              // codice identificazione di questo programma
-String[] portNames = {"COM0", "COM1", "COM2", "COM3", "COM4", "COM5", "/dev/ttyACM0"};                          // vettore delle possibili porte seriali
+String[] portNames = {"COM0", "COM1", "COM2", "COM3", "COM4", "COM5", "COM6", "COM7", "/dev/ttyACM0"};                          // vettore delle possibili porte seriali
 String point_ascii;                                                                                             // valore di point in formato ascii
 
 int count = 0;                                                                                                  // contatore dei cicli di connessione
