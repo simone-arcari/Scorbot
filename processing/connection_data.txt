@@ -1,7 +1,0 @@
-[message] --> port name = COM7
-[message] --> port reference = processing.serial.Serial@3a347379
-[message] --> port available
-[message] --> id = ARO22ARL
-[message] --> porta trovata id corretto
-[message] --> chiusura comunicazione seriale
-[PROGRAMMA ARRESTATO]

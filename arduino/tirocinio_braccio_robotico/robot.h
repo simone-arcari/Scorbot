@@ -29,37 +29,37 @@ typedef struct pwmpin {
 
 class Robot {
 
-public:
-  /* attributes */
-  bool type;          // true --> costruttore 1, false --> costruttore 2
-  point_t maxPoints;  // finecorsa superiori
-  point_t minPoints;  // finecorsa inferiori
-  pwmpin_t pwmPins;   // pin per i servomotori
+  public:
+    /* attributes */
+//  bool type;          // true --> costruttore 1, false --> costruttore 2
+//  point_t maxPoints;  // finecorsa superiori
+//  point_t minPoints;  // finecorsa inferiori
+    pwmpin_t pwmPins;   // pin per i servomotori
 
-  /* oggetti servomotore */
-  Servo s1;
-  Servo s2;
-  Servo s3;
-  Servo s4;
-  Servo s5;
-  Servo s6;
+    /* servomotor objects */
+    Servo s1;
+    Servo s2;
+    Servo s3;
+    Servo s4;
+    Servo s5;
+    Servo s6;
 
-  bool gripperStatus;  //open == true   close == false
+//  bool gripperStatus;  //open == true   close == false
 
-  /* methods */
-  //Robot(point_t, point_t, pwmpin_t);  // costruttore tipo 1
-  Robot(pwmpin_t);  // costruttore tipo 1
+    /* methods */
+    //Robot(point_t, point_t, pwmpin_t);  // costruttore tipo 1
+    Robot(pwmpin_t);  // costruttore tipo 1
+    void setupRobot(void);
+    void setPosition(point_t*);
 
-  void setPosition(point_t);
-
-  //bool isGripperOpened(void);
-  //bool isGripperClosed(void);
-
-  //void openGripper(void);
-  //void closeGripper(void);
-
-private:
-  bool chekPosition(point_t pos);
+    //bool isGripperOpened(void);
+    //bool isGripperClosed(void);
+    //void openGripper(void);
+    //void closeGripper(void);
+  /*
+  private:
+    bool chekPosition(point_t pos);
+  */
 };
 
 /* PUBBLIC */
@@ -91,32 +91,34 @@ Robot::Robot(pwmpin_t pwm) {
 
   //type = false;
   pwmPins = pwm;
-
-  pinMode(pwm.pwm1Pin, OUTPUT);
-  pinMode(pwm.pwm2Pin, OUTPUT);
-  pinMode(pwm.pwm3Pin, OUTPUT);
-  pinMode(pwm.pwm4Pin, OUTPUT);
-  pinMode(pwm.pwm5Pin, OUTPUT);
-  pinMode(pwm.pwm6Pin, OUTPUT);
-
-  s1.attach(pwm.pwm1Pin);
-  s2.attach(pwm.pwm2Pin);
-  s3.attach(pwm.pwm3Pin);
-  s4.attach(pwm.pwm4Pin);
-  s5.attach(pwm.pwm5Pin);
-  s6.attach(pwm.pwm6Pin);
 }
 
-void Robot::setPosition(point_t pos) {
+void Robot::setupRobot(void) {
 
+  pinMode(pwmPins.pwm1Pin, OUTPUT);
+  pinMode(pwmPins.pwm2Pin, OUTPUT);
+  pinMode(pwmPins.pwm3Pin, OUTPUT);
+  pinMode(pwmPins.pwm4Pin, OUTPUT);
+  pinMode(pwmPins.pwm5Pin, OUTPUT);
+  pinMode(pwmPins.pwm6Pin, OUTPUT);
 
-  s1.write(pos.x1);
-  s2.write(pos.x2);
-  s3.write(pos.x3);
-  s4.write(pos.x4);
-  s5.write(pos.x5);
-  s6.write(pos.x6);
-/*
+  s1.attach(pwmPins.pwm1Pin);
+  s2.attach(pwmPins.pwm2Pin);
+  s3.attach(pwmPins.pwm3Pin);
+  s4.attach(pwmPins.pwm4Pin);
+  s5.attach(pwmPins.pwm5Pin);
+  s6.attach(pwmPins.pwm6Pin);
+}
+
+void Robot::setPosition(point_t *pos) {
+
+  s1.write(pos->x1);
+  s2.write(pos->x2);
+  s3.write(pos->x3);
+  s4.write(pos->x4);
+  s5.write(pos->x5);
+  s6.write(pos->x6);
+  /*
   if (type == true) {
     if (chekPosition(pos)) {
       s1.writeMicroseconds(pos.x1);
@@ -168,6 +170,7 @@ void Robot::closeGripper(void) {
 */
 
 /* PRIVATE */
+/*
 bool Robot::chekPosition(point_t pos) {
 
   if (type == true) {
@@ -176,5 +179,6 @@ bool Robot::chekPosition(point_t pos) {
     return (pos.x1 >= 0 && pos.x1 <= 180) && (pos.x2 >= 0 && pos.x2 <= 180) && (pos.x3 >= 0 && pos.x3 <= 180) && (pos.x4 >= 0 && pos.x4 <= 180) && (pos.x5 >= 0 && pos.x5 <= 180) && (pos.x6 >= 0 && pos.x6 <= 65);
   }
 }
+*/
 
 #endif /* ROBOT_H */

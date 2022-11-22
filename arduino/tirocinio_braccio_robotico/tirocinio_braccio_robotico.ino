@@ -44,31 +44,19 @@ point_t pos;
 pwmpin_t pwm = { PWM1, PWM2, PWM3, PWM4, PWM5, PWM6 };
 
 //Robot myRobot = Robot(max, min, pwm);
-//Robot myRobot = Robot(pwm);
 
+Robot myRobot = Robot(pwm);
+LiquidCrystal lcd(RS, EN, D4, D5, D6, D7);
+/*
 Servo s1;
 Servo s2;
 Servo s3;
 Servo s4;
 Servo s5;
 Servo s6;
-
-LiquidCrystal lcd(RS, EN, D4, D5, D6, D7);
-
-/*
-point_t sequence[MAX_POINT_NUM] = {
-  { 1000, 1000, 1000, 1000, 1000, 2000 },  // punto #1
-  { 1100, 1000, 1000, 1000, 1000, 2000 },  // punto #2
-  { 1200, 1000, 1000, 1000, 1000, 2000 },  // punto #3
-  { 1300, 1000, 1000, 1000, 1000, 2000 },  // punto #4
-  { 1400, 1000, 1000, 1000, 1000, 2000 },  // punto #5
-  { 1500, 1000, 1000, 1000, 1000, 2000 },  // punto #6
-  { 1600, 1000, 1000, 1000, 1000, 2000 },  // punto #7
-  { 1700, 1000, 1000, 1000, 1000, 2000 },  // punto #8
-  { 1800, 1000, 1000, 1000, 1000, 2000 },  // punto #9
-  { 1900, 1000, 1000, 1000, 1000, 2000 }   // punto #10
-};
 */
+
+
 int i;
 String id;
 char buffer[32];
@@ -86,6 +74,7 @@ void setup() {
 
 
   /*DEBUG*/
+  /*
   pinMode(PWM1, OUTPUT);
   pinMode(PWM2, OUTPUT);
   pinMode(PWM3, OUTPUT);
@@ -99,7 +88,7 @@ void setup() {
   s4.attach(PWM4);
   s5.attach(PWM5);
   s6.attach(PWM6);
-
+  */
 
 
   pinMode(PIN_LED, OUTPUT);
@@ -168,13 +157,16 @@ void loop() {
       lcd.print("-");
       lcd.print(&point_ascii[5][0]);
 
-      //myRobot.setPosition(pos);
+      myRobot.setPosition(&pos);
+
+      /*
       s1.write(pos.x1);
       s2.write(pos.x2);
       s3.write(pos.x3);
       s4.write(pos.x4);
       s5.write(pos.x5);
       s6.write(pos.x6);
+      */
 
       if (Serial.availableForWrite()) {
         Serial.write(ARDUINO_ID);
