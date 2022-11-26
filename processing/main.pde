@@ -91,7 +91,7 @@ void draw() {
     }
 
     drawFloor();  // Pavimento
-    drawRobot();
+    drawRobot();  // Scorbot
 
     if (manualControl == false) {
       if (millis()-lastTime >= FRAMES_RATE) {

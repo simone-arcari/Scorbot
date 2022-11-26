@@ -107,6 +107,7 @@ float zBlock18 = zBlock16;      // 1cm
 float omega = PI/2-acos((zBlock17/2)/xBlock17);
 float offsetPinza = zBlock16/2*sin(omega);
 
+// Variabile varie
 int direction = 1;                                                                                              // verso rotazione motori per la modalità a controllo manuale
 int MOTORS_NUM = 6;                                                                                             // numero motori = numero di coordinate per ogni frames
 int MAX_FRAMES = 10 ;                                                                                           // numero massimo di frames(ogni frames ha sei coordinate)
@@ -116,12 +117,17 @@ int pointCount = 0;                                                             
 // Angoli d'interesse
 float alpha = 0;
 float beta = 0;
-
 float[] theta = new float[6];
 float[] realServoTheta = new float[6];
 float[] thetaSign = {1,-1,1,1,-1,-1};
 float[] thetaInit = {rad(0),rad(-60),rad(40),rad(20),rad(0),rad(0)};
 float[] thetaOffset = {rad(90),rad(0),rad(90),rad(90),rad(0),rad(65)};
+
+// Parametri Scorbot
+float d1;
+float l2;
+float l3;
+float d5;
 
 
 void drawRobot() {
