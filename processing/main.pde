@@ -68,6 +68,8 @@ void draw() {
     lights();
 
     keyEvent();
+    
+    float[] prova_d = inverseKinematic(0,130,50,0,0);
 
     // Calcolo relazioni tra angoli veri(servomotori) e angoli fittizzi(processing space)
     if (manualControl == true) {
