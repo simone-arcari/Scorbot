@@ -85,10 +85,13 @@ void draw() {
     else if(manualControl == 2) {
       float[] prova_d = inverseKinematic(0,130,50,0,0);
       
-      for (i=0; i<MOTORS_NUM; i++) {
+      for (i=0; i<DOF; i++) {
         theta[i] = prova_d[i];
         realServoTheta[i] =  thetaSign[i]*theta[i] + thetaOffset[i];
       }
+      theta[MOTORS_NUM-1] = 65;
+      realServoTheta[MOTORS_NUM-1] =  thetaSign[MOTORS_NUM-1]*theta[MOTORS_NUM-1] + thetaOffset[MOTORS_NUM-1];
+      
       serialSendPositions(realServoTheta);
       serialCheckACK();
     }
