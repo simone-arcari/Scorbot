@@ -1,7 +1,7 @@
 #include "robot.h"
 #include "string.h"
-#include <LiquidCrystal.h>
 #include <Servo.h>
+#include <LiquidCrystal.h>
 
 #define RS 2
 #define EN 4
@@ -47,6 +47,8 @@ pwmpin_t pwm = { PWM1, PWM2, PWM3, PWM4, PWM5, PWM6 };
 
 Robot myRobot = Robot(pwm);
 LiquidCrystal lcd(RS, EN, D4, D5, D6, D7);
+
+
 /*
 Servo s1;
 Servo s2;
@@ -70,7 +72,7 @@ void setup() {
   Serial.begin(9600);
   lcd.begin(16, 2);  
   lcd.print("hello, world!");
-
+  myRobot.setupRobot();
 
 
   /*DEBUG*/
