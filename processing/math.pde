@@ -5,6 +5,13 @@ float sign_d = 1;    // gomito alto/basso
 
 float[] inverseKinematic(float x_d, float y_d, float z_d, float B_d, float W_d) {
   
+  
+  //DEBUG-->
+  float d1 = 30; //<>//
+  float l2 = 20;
+  float l3 = 20;
+  float d5 = 10;
+  
   // Calcolo theta 1
   theta_d[0] = atan2(y_d, x_d);
   
@@ -19,7 +26,10 @@ float[] inverseKinematic(float x_d, float y_d, float z_d, float B_d, float W_d) 
   
   // Calcolo theta 2
   float S = (l2 + l3*cos(theta_d[2]))*A2 - l3*sin(theta_d[2])*A1;
-  float C = (l2 + l3*sin(theta_d[2]))*A1 - l3*sin(theta_d[2])*A2;
+  float C = (l2 + l3*sin(theta_d[2]))*A1 + l3*sin(theta_d[2])*A2;
+  
+
+  
   theta_d[1] = atan2(S, C);
   
   // Calcolo theta 4
@@ -28,10 +38,11 @@ float[] inverseKinematic(float x_d, float y_d, float z_d, float B_d, float W_d) 
   // Calcolo theta 5
   theta_d[4] = W_d;
   
-  // Conversione in gradi
-//  for(int i=0; i<DOF; i++) {
-//    theta_d[i] = deg(theta_d[i]);
-//  }
+  text("theta_1: "+theta_d[0],400,75);
+  text("A1: "+A1,400,100);
+  text("A2: "+A2,400,125);
+  text("S: "+S,400,150);
+  text("C: "+C,400,175);
   
   return theta_d; 
 }

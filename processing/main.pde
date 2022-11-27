@@ -14,7 +14,7 @@ long MAX_TIME_LOOP = 10000;                                                     
 long FRAMES_RATE = 3000;                                                                                        // rate di invio delle coordinate tra un frame e l'altro
 
 boolean startFlag = false;                                                                                      // flag per l'inizio del ciclo draw()
-int manualControl = 2;                                                                                   // flag per la modalità di controllo motori
+int ControlMod = 0;                                                                                             // flag per la modalità di controllo motori
 
 
 void setup() {
@@ -70,30 +70,48 @@ void draw() {
     keyEvent();
     
     // Calcolo relazioni tra angoli veri(servomotori) e angoli fittizzi(processing space)
-    if (manualControl == 0) {
+    if (ControlMod == 0) {
       for (i=0; i<MOTORS_NUM; i++) {
         realServoTheta[i] =  thetaSign[i]*theta[i] + thetaOffset[i];
       }
       serialSendPositions(realServoTheta);
       serialCheckACK();
     } 
-    else if(manualControl == 1) {
+    else if(ControlMod == 1) {
       for (i=0; i<MOTORS_NUM; i++) {
         theta[i] =  (realServoTheta[i]-thetaOffset[i])/thetaSign[i];
       }
     } 
-    else if(manualControl == 2) {
-      float[] prova_d = inverseKinematic(0,130,50,0,0);
+    else if(ControlMod == 2) {
+      float[] prova_d = inverseKinematic(-20,30,20,rad(40),rad(10)); //<>//
       
-      for (i=0; i<DOF; i++) {
-        theta[i] = prova_d[i];
+      
+      theta[0] = prova_d[0]-PI/2;
+      theta[1] = prova_d[1];
+      theta[2] = prova_d[2];
+      theta[3] = prova_d[3];
+      theta[4] = prova_d[4];
+      theta[5] = rad(65);
+      
+      realServoTheta[0] = thetaSign[0]*theta[0] + thetaOffset[0];
+      realServoTheta[1] = theta[1];
+      realServoTheta[2] = theta[2];
+      realServoTheta[3] = theta[3];
+      realServoTheta[4] = theta[4];
+      realServoTheta[5] = theta[5];
+      
+      
+      //for (i=0; i<DOF; i++) {
+        //theta[i] = prova_d[i];
         //realServoTheta[i] =  thetaSign[i]*theta[i] + thetaOffset[i];
-        realServoTheta[i] = theta[i];
-      }
-      theta[MOTORS_NUM-1] = rad(65);
+       // realServoTheta[i] = theta[i];
+     // }
+      //theta[MOTORS_NUM-1] = rad(65);
       //realServoTheta[MOTORS_NUM-1] =  thetaSign[MOTORS_NUM-1]*theta[MOTORS_NUM-1] + thetaOffset[MOTORS_NUM-1];
-      realServoTheta[MOTORS_NUM-1] = theta[MOTORS_NUM-1];
-      
+      //realServoTheta[MOTORS_NUM-1] = theta[MOTORS_NUM-1];
+
+
+
       serialSendPositions(realServoTheta);
       serialCheckACK();
     }
@@ -105,11 +123,14 @@ void draw() {
       text("realServoTheta["+i+"]:", 10, 75+25*i);
       text(int(deg(realServoTheta[i])) + "°", 250, 75+25*i);
     }
+    fill(#32DB23); // Colore parametro ControlMod
+    text("ControlMod:", 10, 75+25*6);
+    text(ControlMod, 250, 75+25*6);
 
     drawFloor();  // Pavimento
     drawRobot();  // Scorbot
 
-    if (manualControl == 1) {
+    if (ControlMod == 1) {
       if (millis()-lastTime >= FRAMES_RATE) {
         lastTime = millis();
         serialSendFrame();  // Inivia i punti memorizzati
@@ -170,9 +191,9 @@ void keyEvent() {
 
     // Modalità controllo motori
     if (key == 'm' || key == 'M') {
-      manualControl++;
-      if(manualControl > 2)
-        manualControl = 0;
+      ControlMod++;
+      if(ControlMod > 2)
+        ControlMod = 0;
       delay(200);
     }
 
@@ -183,7 +204,7 @@ void keyEvent() {
     }
 
     // Controllo rotazioni motori
-    if (manualControl == 1) {
+    if (ControlMod == 0) {
 
       // Rotazione motore1
       if (key == '1' && theta[0] >= -PI/2 && theta[0] <= PI/2) {
