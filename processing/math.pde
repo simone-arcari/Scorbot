@@ -29,9 +29,9 @@ float[] inverseKinematic(float x_d, float y_d, float z_d, float B_d, float W_d) 
   theta_d[4] = W_d;
   
   // Conversione in gradi
-  for(int i=0; i<DOF; i++) {
-    theta_d[i] = deg(theta_d[i]);
-  }
+//  for(int i=0; i<DOF; i++) {
+//    theta_d[i] = deg(theta_d[i]);
+//  }
   
   return theta_d; 
 }
