@@ -87,10 +87,12 @@ void draw() {
       
       for (i=0; i<DOF; i++) {
         theta[i] = prova_d[i];
-        realServoTheta[i] =  thetaSign[i]*theta[i] + thetaOffset[i];
+        //realServoTheta[i] =  thetaSign[i]*theta[i] + thetaOffset[i];
+        realServoTheta[i] = theta[i];
       }
-      theta[MOTORS_NUM-1] = 65;
-      realServoTheta[MOTORS_NUM-1] =  thetaSign[MOTORS_NUM-1]*theta[MOTORS_NUM-1] + thetaOffset[MOTORS_NUM-1];
+      theta[MOTORS_NUM-1] = rad(65);
+      //realServoTheta[MOTORS_NUM-1] =  thetaSign[MOTORS_NUM-1]*theta[MOTORS_NUM-1] + thetaOffset[MOTORS_NUM-1];
+      realServoTheta[MOTORS_NUM-1] = theta[MOTORS_NUM-1];
       
       serialSendPositions(realServoTheta);
       serialCheckACK();
