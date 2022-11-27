@@ -125,7 +125,7 @@ float[] thetaOffset = {rad(90),rad(0),rad(90),rad(90),rad(0),rad(65)};
 
 // Parametri Scorbot
 float d1 = yBlock1+yBlock2/2+yOffsetM1+motorHeight/2+gearHeight+motorDepth/2;
-float l2;
+float l2 = 2*xBlock6/2-motorDepth;
 float l3;
 float d5;
 
@@ -133,14 +133,6 @@ float d5;
 
 void drawRobot() {
   
-  
-  pushMatrix();
-  translate(0,-yFloor/2-d1,0);
-  box(1000,0,1000);
-  popMatrix();
-  
-  
-
   // Base
   fill(#C4C0C0);  // Colore del robot
   translate(-xFloor/2+xBlock1/2+xOffsetBase, -(yFloor/2+yBlock1/2), -zFloor/2+zBlock1/2+zOffsetBase);
@@ -184,6 +176,11 @@ void drawRobot() {
   rotateZ(120*PI/180);  // Per disegnare ingranaggio
   box(gearWidth, gearDepth, gearHeight);
   rotateZ(120*PI/180);  // Torno all'angolo iniziale
+  
+  pushMatrix();
+  translate(l2,0,0);
+  box(0,1000,1000);
+  popMatrix();
 
   // Gabbia motore2
   fill(#C4C0C0);  // colore del robot
