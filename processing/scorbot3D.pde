@@ -125,9 +125,9 @@ float[] thetaOffset = {rad(90),rad(0),rad(90),rad(90),rad(0),rad(65)};
 
 // Parametri Scorbot
 float d1 = yBlock1+yBlock2/2+yOffsetM1+motorHeight/2+gearHeight+motorDepth/2;
-float l2 = 2*xBlock6-motorDepth;
-float l3;
-float d5;
+float l2 = 2*xBlock6-motorDepth+xBlock7/2;
+float l3 = -motorWidth/2+gearOffset+xBlock8+xBlock6-motorDepth/2;
+float d5 = 196;
 
 
 
@@ -177,11 +177,6 @@ void drawRobot() {
   box(gearWidth, gearDepth, gearHeight);
   rotateZ(120*PI/180);  // Torno all'angolo iniziale
   
-  pushMatrix();
-  translate(l2,0,0);
-  box(0,1000,1000);
-  popMatrix();
-
   // Gabbia motore2
   fill(#C4C0C0);  // colore del robot
   translate(xBlock6/2-motorDepth/2, 0, gearHeight/2-zBlock6/2);
@@ -197,7 +192,7 @@ void drawRobot() {
   translate(-xBlock6/2+xBlock7/2, 0, zBlock7/2-zBlock6/2);
   box(xBlock7, yBlock7, zBlock7);
   pushMatrix(); // Memorizzo il sistema attuale
-  translate(xBlock6/2+xBlock7/2, 0, zBlock7/2-zBlock6/2);
+  translate(xBlock6/2-xBlock7/2, 0, zBlock7/2-zBlock6/2);
   box(xBlock6, yBlock6, zBlock6);
   popMatrix();  // Ritorno al sistema di riferimento memorizzato
 
@@ -214,7 +209,7 @@ void drawRobot() {
   fill(#000000);  // Colore motore
   translate(gearOffset, 0, -motorHeight/2-gearHeight/2);
   box(motorWidth, motorDepth, motorHeight);
-
+  
   // Connessione motore3 con gabbia motore4
   fill(#C4C0C0);  // Colore del robot
   translate((xBlock8-motorWidth)/2, motorDepth/2+yBlock8/2, (gearHeight-zBlock6)/2);
@@ -241,7 +236,7 @@ void drawRobot() {
   rotateZ(120*PI/180);  // Per disegnare ingranaggio
   box(gearWidth, gearDepth, gearHeight);
   rotateZ(120*PI/180);  // Torno all'angolo iniziale
-  rotateZ(theta[3]);  // Asse rotazione motore4
+  rotateZ(theta[3]);  // Asse rotazione motore4  
   fill(#000000);  // Colore motore
   translate(gearOffset, 0, -motorHeight/2-gearHeight/2);
   box(motorWidth, motorDepth, motorHeight);
