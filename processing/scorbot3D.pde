@@ -124,7 +124,7 @@ float[] thetaInit = {rad(0),rad(-60),rad(40),rad(20),rad(0),rad(0)};
 float[] thetaOffset = {rad(90),rad(0),rad(90),rad(90),rad(0),rad(65)};
 
 // Parametri Scorbot
-float d1 = yBlock1+yOffsetM1+motorHeight/2+gearHeight+motorDepth/2;
+float d1 = yBlock1+yBlock2/2+yOffsetM1+motorHeight/2+gearHeight+motorDepth/2;
 float l2;
 float l3;
 float d5;
@@ -136,7 +136,7 @@ void drawRobot() {
   
   pushMatrix();
   translate(0,-yFloor/2-d1,0);
-  box(100,0,100);
+  box(1000,0,1000);
   popMatrix();
   
   
