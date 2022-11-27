@@ -124,7 +124,7 @@ float[] thetaInit = {rad(0),rad(-60),rad(40),rad(20),rad(0),rad(0)};
 float[] thetaOffset = {rad(90),rad(0),rad(90),rad(90),rad(0),rad(65)};
 
 // Parametri Scorbot
-float d1 = yBlock1+motorHeight+gearHeight+motorDepth/2;
+float d1 = yBlock1+yOffsetM1+motorHeight/2+gearHeight+motorDepth/2;
 float l2;
 float l3;
 float d5;
