@@ -14,7 +14,7 @@ long MAX_TIME_LOOP = 10000;                                                     
 long FRAMES_RATE = 3000;                                                                                        // rate di invio delle coordinate tra un frame e l'altro
 
 boolean startFlag = false;                                                                                      // flag per l'inizio del ciclo draw()
-boolean manualControl = true;                                                                                   // flag per la modalità di controllo motori
+int manualControl = 2;                                                                                   // flag per la modalità di controllo motori
 
 
 void setup() {
@@ -69,19 +69,28 @@ void draw() {
 
     keyEvent();
     
-    float[] prova_d = inverseKinematic(0,130,50,0,0);
-
     // Calcolo relazioni tra angoli veri(servomotori) e angoli fittizzi(processing space)
-    if (manualControl == true) {
+    if (manualControl == 0) {
       for (i=0; i<MOTORS_NUM; i++) {
         realServoTheta[i] =  thetaSign[i]*theta[i] + thetaOffset[i];
       }
       serialSendPositions(realServoTheta);
       serialCheckACK();
-    } else {
+    } 
+    else if(manualControl == 1) {
       for (i=0; i<MOTORS_NUM; i++) {
         theta[i] =  (realServoTheta[i]-thetaOffset[i])/thetaSign[i];
       }
+    } 
+    else if(manualControl == 2) {
+      float[] prova_d = inverseKinematic(0,130,50,0,0);
+      
+      for (i=0; i<MOTORS_NUM; i++) {
+        theta[i] = prova_d[i];
+        realServoTheta[i] =  thetaSign[i]*theta[i] + thetaOffset[i];
+      }
+      serialSendPositions(realServoTheta);
+      serialCheckACK();
     }
     
     // Parametri stampati su schermo
@@ -95,10 +104,10 @@ void draw() {
     drawFloor();  // Pavimento
     drawRobot();  // Scorbot
 
-    if (manualControl == false) {
+    if (manualControl == 1) {
       if (millis()-lastTime >= FRAMES_RATE) {
         lastTime = millis();
-        serialSendFrame();
+        serialSendFrame();  // Inivia i punti memorizzati
       }
       serialCheckACK();
     }
@@ -156,7 +165,9 @@ void keyEvent() {
 
     // Modalità controllo motori
     if (key == 'm' || key == 'M') {
-      manualControl = !manualControl;
+      manualControl++;
+      if(manualControl > 2)
+        manualControl = 0;
       delay(200);
     }
 
@@ -167,7 +178,7 @@ void keyEvent() {
     }
 
     // Controllo rotazioni motori
-    if (manualControl == true) {
+    if (manualControl == 1) {
 
       // Rotazione motore1
       if (key == '1' && theta[0] >= -PI/2 && theta[0] <= PI/2) {
