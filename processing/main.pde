@@ -1,4 +1,4 @@
-PImage background;                                                                                              // reference per l'immagine di background della finestra
+PImage background;                                                                                              // reference per l'immagine di background della finestra //<>//
 
 PrintWriter connectionFile;                                                                                     // reference per il file con i dati di connessione alla porta
 PrintWriter positionFile;                                                                                       // reference per il file con i dati sulle posizioni del robot
@@ -15,9 +15,9 @@ long FRAMES_RATE = 3000;                                                        
 boolean startFlag = false;                                                                                      // flag per l'inizio del ciclo draw()
 
 public enum Mod {
-  MANUAL_CONTROL,                                                                                               // modalità che permette di controllare gli angoli dei motori manualmente
-  FRAME_MOD,                                                                                                    // modalità in cui il robot si muove secondo una serie di frames prefissati
-  INVERSE_KINEMATIC_MOD                                                                                         // modalità in cui il robot si muove secondo il calcolo della cinematica inversa
+  MANUAL_CONTROL, // modalità che permette di controllare gli angoli dei motori manualmente
+    FRAME_MOD, // modalità in cui il robot si muove secondo una serie di frames prefissati
+    INVERSE_KINEMATIC_MOD                                                                                         // modalità in cui il robot si muove secondo il calcolo della cinematica inversa
 }
 
 Mod ControlMod = Mod.MANUAL_CONTROL;                                                                            // flag per la modalità di controllo del robot
@@ -47,7 +47,7 @@ void setup() {
   positionFile = createWriter("position_data.txt");                                                             // apro/creo il file per i dati delle posizioni del robot
 
   //serialTryConnect();                                                                                           // tento di avviare la connessione seriale, in caso di fallimento termino il programma
-  /*DEBUG--->*/portFound=true;
+  /*DEBUG--->*/  portFound=true;
 
 
 
@@ -77,52 +77,50 @@ void draw() {
     lights();
 
     keyEvent();
-    
+
     // Calcolo relazioni tra angoli veri(servomotori) e angoli fittizzi(processing space)
     if (ControlMod == Mod.MANUAL_CONTROL) {
       for (i=0; i<MOTORS_NUM; i++) {
         realServoTheta[i] =  thetaSign[i]*theta[i] + thetaOffset[i];
       }
-//      serialSendPositions(realServoTheta);
-//      serialCheckACK();
-    } 
-    else if(ControlMod == Mod.FRAME_MOD) {
+      //      serialSendPositions(realServoTheta);
+      //      serialCheckACK();
+    } else if (ControlMod == Mod.FRAME_MOD) {
       for (i=0; i<MOTORS_NUM; i++) {
         theta[i] =  (realServoTheta[i]-thetaOffset[i])/thetaSign[i];
       }
-    } 
-    else if(ControlMod == Mod.INVERSE_KINEMATIC_MOD) {
-      float[] prova_d = inverseKinematic(-20,30,20,rad(40),rad(10)); //<>//
-      
-      
+    } else if (ControlMod == Mod.INVERSE_KINEMATIC_MOD) {
+      float[] prova_d = inverseKinematic(-20, 30, 20, rad(40), rad(10));
+
+
       theta[0] = prova_d[0]-PI/2;
       theta[1] = -prova_d[1];
       theta[2] = -prova_d[2];
       theta[3] = -prova_d[3];
       theta[4] = prova_d[4];
       theta[5] = rad(65);
-      
+
       realServoTheta[0] = thetaSign[0]*theta[0] + thetaOffset[0];
       realServoTheta[1] = theta[1];
       realServoTheta[2] = theta[2];
       realServoTheta[3] = theta[3];
       realServoTheta[4] = theta[4];
-      realServoTheta[5] = theta[5];    
-                  //for (i=0; i<DOF; i++) {
-                  //theta[i] = prova_d[i];
-                  //realServoTheta[i] =  thetaSign[i]*theta[i] + thetaOffset[i];
-                  // realServoTheta[i] = theta[i];
-                  // }
-                  //theta[MOTORS_NUM-1] = rad(65);
-                  //realServoTheta[MOTORS_NUM-1] =  thetaSign[MOTORS_NUM-1]*theta[MOTORS_NUM-1] + thetaOffset[MOTORS_NUM-1];
-                  //realServoTheta[MOTORS_NUM-1] = theta[MOTORS_NUM-1];
-//      serialSendPositions(realServoTheta);
-//      serialCheckACK();
+      realServoTheta[5] = theta[5];
+      //for (i=0; i<DOF; i++) {
+      //theta[i] = prova_d[i];
+      //realServoTheta[i] =  thetaSign[i]*theta[i] + thetaOffset[i];
+      // realServoTheta[i] = theta[i];
+      // }
+      //theta[MOTORS_NUM-1] = rad(65);
+      //realServoTheta[MOTORS_NUM-1] =  thetaSign[MOTORS_NUM-1]*theta[MOTORS_NUM-1] + thetaOffset[MOTORS_NUM-1];
+      //realServoTheta[MOTORS_NUM-1] = theta[MOTORS_NUM-1];
+      //      serialSendPositions(realServoTheta);
+      //      serialCheckACK();
     }
-    
+
     // Parametri stampati su schermo
     printText();
-    
+
     // Disegno
     drawFloor();  // disefno il pavimento
     drawRobot();  // disegno lo scorbot
@@ -131,9 +129,9 @@ void draw() {
     if (ControlMod == Mod.FRAME_MOD) {
       if (millis()-lastTime >= FRAMES_RATE) {
         lastTime = millis();
-//        serialSendFrame();  // Inivia i punti memorizzati
+        //        serialSendFrame();  // Inivia i punti memorizzati
       }
-//      serialCheckACK();
+      //      serialCheckACK();
     }
   }
 }
@@ -180,37 +178,37 @@ void keyEvent() {
       beta += rad(1);
     }
 
-    // Reset posizioni/spazio3D
-    if (key == 'q' || key == 'Q') {
-      for (i=0; i<MOTORS_NUM; i++) {
-        theta[i] = thetaInit[i];
-      }
-    }
-
     // Modalità controllo motori
     if (key == 'm' || key == 'M') {
       switch(ControlMod) {
-        case MANUAL_CONTROL:
-          ControlMod = Mod.FRAME_MOD;
+      case MANUAL_CONTROL:
+        ControlMod = Mod.FRAME_MOD;
         break;
-        case FRAME_MOD:
-          ControlMod = Mod.INVERSE_KINEMATIC_MOD;
+      case FRAME_MOD:
+        ControlMod = Mod.INVERSE_KINEMATIC_MOD;
         break;
-        case INVERSE_KINEMATIC_MOD:
-          ControlMod = Mod.MANUAL_CONTROL;
-        break; 
+      case INVERSE_KINEMATIC_MOD:
+        ControlMod = Mod.MANUAL_CONTROL;
+        break;
       }
-      delay(200);
-    }
-
-    // Direzione rotazione motori
-    if (key == 's' || key == 'S') {
-      direction = -1*direction;
       delay(200);
     }
 
     // Controllo rotazioni motori
     if (ControlMod == Mod.MANUAL_CONTROL) {
+
+      // Reset posizioni/spazio3D
+      if (key == 'q' || key == 'Q') {
+        for (i=0; i<MOTORS_NUM; i++) {
+          theta[i] = thetaInit[i];
+        }
+      }
+
+      // Direzione rotazione motori
+      if (key == 's' || key == 'S') {
+        direction = -1*direction;
+        delay(200);
+      }
 
       // Rotazione motore 1
       if (key == '1' && theta[0] >= -PI/2 && theta[0] <= PI/2) {
@@ -254,7 +252,7 @@ void keyEvent() {
         if (theta[5] > 65*PI/180)  theta[5] = rad(65);
       }
     }
-    
+
     if (ControlMod == Mod.INVERSE_KINEMATIC_MOD) {
       if (key == 'g' || key == 'G') {
         sign_d *= -1;
@@ -283,27 +281,28 @@ void printInfo(String text) {
   connectionFile.println(text);
 }
 
+
 void printText() {
   textSize(25);
   fill(#FF9100); // Colore parametri theta
-  
+
   for (i=0; i<MOTORS_NUM; i++) {
     text("realServoTheta["+i+"]:", 10, 25 + 25*i);
     text(int(deg(realServoTheta[i])) + "°", 250, 25 + 25*i);
   }
-  
+
   fill(#32DB23); // Colore parametro ControlMod
   text("ControlMod:", 10, 25+25*7);
-  
+
   switch(ControlMod) {
-    case MANUAL_CONTROL:
-      text("MANUAL_CONTROL", 150, 25+25*7);
+  case MANUAL_CONTROL:
+    text("MANUAL_CONTROL", 150, 25+25*7);
     break;
-    case FRAME_MOD:
-      text("FRAME_MOD", 150, 25+25*7);
+  case FRAME_MOD:
+    text("FRAME_MOD", 150, 25+25*7);
     break;
-    case INVERSE_KINEMATIC_MOD:
-      text("INVERSE_KINEMATIC_MOD", 150, 25+25*7);
-    break; 
+  case INVERSE_KINEMATIC_MOD:
+    text("INVERSE_KINEMATIC_MOD", 150, 25+25*7);
+    break;
   }
 }
