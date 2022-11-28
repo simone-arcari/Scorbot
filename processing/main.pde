@@ -8,17 +8,23 @@ int offset;                                                                     
 int RECT_WIDTH = 600;                                                                                           // lunghezza rettangolo usato per contenere una scritta
 int RECT_HEIGHT = 100;                                                                                          // altezza rettangolo usato per contenere una scritta
 
-
 long lastTime;                                                                                                  // variabile per contenere le misure di millis()
 long MAX_TIME_LOOP = 10000;                                                                                     // tempo massimo per il ciclo di connessione prima di fallire
 long FRAMES_RATE = 3000;                                                                                        // rate di invio delle coordinate tra un frame e l'altro
 
 boolean startFlag = false;                                                                                      // flag per l'inizio del ciclo draw()
-int ControlMod = 0;                                                                                             // flag per la modalità di controllo motori
+
+public enum Mod {
+  MANUAL_CONTROL,                                                                                               // modalità che permette di controllare gli angoli dei motori manualmente
+  FRAME_MOD,                                                                                                    // modalità in cui il robot si muove secondo una serie di frames prefissati
+  INVERSE_KINEMATIC_MOD                                                                                         // modalità in cui il robot si muove secondo il calcolo della cinematica inversa
+}
+
+Mod ControlMod = Mod.MANUAL_CONTROL;                                                                            // flag per la modalità di controllo del robot
 
 
 void setup() {
-  size(626, 626, P3D);                                                                                          // creo la finestra con la taglia in pixel dell'immagine
+  size(1280, 720, P3D);                                                                                         // creo la finestra con la taglia in pixel dell'immagine
   smooth(8);                                                                                                    // 8x anti-aliasing
   stroke(255);
   strokeWeight(2);
@@ -33,14 +39,17 @@ void setup() {
   fill(0);                                                                                                      // colore nero per il testo nel rettangolo
   textSize(40);                                                                                                 // dimensione del testo
   textAlign(CENTER);                                                                                            // allineo il testo al centro della finestra
-  text("quando il led si accende premere", width/2, 200);                                                       // stampo il testo parte 1
-  text("il tasto CTRL", width/2, 240);                                                                          // stampo il testo parte 2
+  text("quando il led si accende premere", width/2, 250);                                                       // stampo il testo parte 1
+  text("il tasto CTRL", width/2, 290);                                                                          // stampo il testo parte 2
   textAlign(LEFT);                                                                                              // rimposto allineamento standard (a sinistra)
 
   connectionFile = createWriter("connection_data.txt");                                                         // apro/creo il file per i dati di connessione alla porta
   positionFile = createWriter("position_data.txt");                                                             // apro/creo il file per i dati delle posizioni del robot
 
-  serialTryConnect();                                                                                           // tento di avviare la connessione seriale, in caso di fallimento termino il programma
+  //serialTryConnect();                                                                                           // tento di avviare la connessione seriale, in caso di fallimento termino il programma
+  /*DEBUG--->*/portFound=true;
+
+
 
   xBase = width/2;                                                                                              // coordinata x iniziale spazzio processing
   yBase = 5*(height/6);                                                                                         // coordinata y iniziale spazzio processing
@@ -70,26 +79,26 @@ void draw() {
     keyEvent();
     
     // Calcolo relazioni tra angoli veri(servomotori) e angoli fittizzi(processing space)
-    if (ControlMod == 0) {
+    if (ControlMod == Mod.MANUAL_CONTROL) {
       for (i=0; i<MOTORS_NUM; i++) {
         realServoTheta[i] =  thetaSign[i]*theta[i] + thetaOffset[i];
       }
-      serialSendPositions(realServoTheta);
-      serialCheckACK();
+//      serialSendPositions(realServoTheta);
+//      serialCheckACK();
     } 
-    else if(ControlMod == 1) {
+    else if(ControlMod == Mod.FRAME_MOD) {
       for (i=0; i<MOTORS_NUM; i++) {
         theta[i] =  (realServoTheta[i]-thetaOffset[i])/thetaSign[i];
       }
     } 
-    else if(ControlMod == 2) {
+    else if(ControlMod == Mod.INVERSE_KINEMATIC_MOD) {
       float[] prova_d = inverseKinematic(-20,30,20,rad(40),rad(10)); //<>//
       
       
       theta[0] = prova_d[0]-PI/2;
-      theta[1] = prova_d[1];
-      theta[2] = prova_d[2];
-      theta[3] = prova_d[3];
+      theta[1] = -prova_d[1];
+      theta[2] = -prova_d[2];
+      theta[3] = -prova_d[3];
       theta[4] = prova_d[4];
       theta[5] = rad(65);
       
@@ -98,44 +107,33 @@ void draw() {
       realServoTheta[2] = theta[2];
       realServoTheta[3] = theta[3];
       realServoTheta[4] = theta[4];
-      realServoTheta[5] = theta[5];
-      
-      
-      //for (i=0; i<DOF; i++) {
-        //theta[i] = prova_d[i];
-        //realServoTheta[i] =  thetaSign[i]*theta[i] + thetaOffset[i];
-       // realServoTheta[i] = theta[i];
-     // }
-      //theta[MOTORS_NUM-1] = rad(65);
-      //realServoTheta[MOTORS_NUM-1] =  thetaSign[MOTORS_NUM-1]*theta[MOTORS_NUM-1] + thetaOffset[MOTORS_NUM-1];
-      //realServoTheta[MOTORS_NUM-1] = theta[MOTORS_NUM-1];
-
-
-
-      serialSendPositions(realServoTheta);
-      serialCheckACK();
+      realServoTheta[5] = theta[5];    
+                  //for (i=0; i<DOF; i++) {
+                  //theta[i] = prova_d[i];
+                  //realServoTheta[i] =  thetaSign[i]*theta[i] + thetaOffset[i];
+                  // realServoTheta[i] = theta[i];
+                  // }
+                  //theta[MOTORS_NUM-1] = rad(65);
+                  //realServoTheta[MOTORS_NUM-1] =  thetaSign[MOTORS_NUM-1]*theta[MOTORS_NUM-1] + thetaOffset[MOTORS_NUM-1];
+                  //realServoTheta[MOTORS_NUM-1] = theta[MOTORS_NUM-1];
+//      serialSendPositions(realServoTheta);
+//      serialCheckACK();
     }
     
     // Parametri stampati su schermo
-    textSize(25);
-    fill(#FF9100); // Colore parametri theta
-    for (i=0; i<MOTORS_NUM; i++) {
-      text("realServoTheta["+i+"]:", 10, 75+25*i);
-      text(int(deg(realServoTheta[i])) + "°", 250, 75+25*i);
-    }
-    fill(#32DB23); // Colore parametro ControlMod
-    text("ControlMod:", 10, 75+25*6);
-    text(ControlMod, 250, 75+25*6);
+    printText();
+    
+    // Disegno
+    drawFloor();  // disefno il pavimento
+    drawRobot();  // disegno lo scorbot
 
-    drawFloor();  // Pavimento
-    drawRobot();  // Scorbot
-
-    if (ControlMod == 1) {
+    // Timer non bloccante
+    if (ControlMod == Mod.FRAME_MOD) {
       if (millis()-lastTime >= FRAMES_RATE) {
         lastTime = millis();
-        serialSendFrame();  // Inivia i punti memorizzati
+//        serialSendFrame();  // Inivia i punti memorizzati
       }
-      serialCheckACK();
+//      serialCheckACK();
     }
   }
 }
@@ -191,9 +189,17 @@ void keyEvent() {
 
     // Modalità controllo motori
     if (key == 'm' || key == 'M') {
-      ControlMod++;
-      if(ControlMod > 2)
-        ControlMod = 0;
+      switch(ControlMod) {
+        case MANUAL_CONTROL:
+          ControlMod = Mod.FRAME_MOD;
+        break;
+        case FRAME_MOD:
+          ControlMod = Mod.INVERSE_KINEMATIC_MOD;
+        break;
+        case INVERSE_KINEMATIC_MOD:
+          ControlMod = Mod.MANUAL_CONTROL;
+        break; 
+      }
       delay(200);
     }
 
@@ -204,48 +210,55 @@ void keyEvent() {
     }
 
     // Controllo rotazioni motori
-    if (ControlMod == 0) {
+    if (ControlMod == Mod.MANUAL_CONTROL) {
 
-      // Rotazione motore1
+      // Rotazione motore 1
       if (key == '1' && theta[0] >= -PI/2 && theta[0] <= PI/2) {
         theta[0] += direction*rad(1);
         if (theta[0] < -PI/2)  theta[0] = rad(-90);
         if (theta[0] > PI/2)  theta[0] = rad(90);
       }
 
-      // Rotazione motore2
+      // Rotazione motore 2
       if (key == '2' && theta[1] >= -PI && theta[1] <= 0) {
         theta[1] += direction*rad(1);
         if (theta[1] < -PI)  theta[1] = rad(-180);
         if (theta[1] > 0)  theta[1] = rad(0);
       }
 
-      // Rotazione motore3
+      // Rotazione motore 3
       if (key == '3' && theta[2] >= -PI/2 && theta[2] <= PI/2) {
         theta[2] += direction*rad(1);
         if (theta[2] < -PI/2)  theta[2] = rad(-90);
         if (theta[2] > PI/2)  theta[2] = rad(90);
       }
 
-      // Rotazione motore4
+      // Rotazione motore 4
       if (key == '4' && theta[3] >= -PI/2 && theta[3] <= PI/2) {
         theta[3] += direction*rad(1);
         if (theta[3] < -PI/2)  theta[3] = rad(-90);
         if (theta[3] > PI/2)  theta[3] = rad(90);
       }
 
-      // Rotazione motore5
+      // Rotazione motore 5
       if (key == '5' && theta[4] >= -PI && theta[4] <= 0) {
         theta[4] += direction*rad(1);
         if (theta[4] < -PI)  theta[4] = rad(-180);
         if (theta[4] > 0)  theta[4] = rad(0);
       }
 
-      // Rotazione motore6
+      // Rotazione motore 6
       if (key == '6' && theta[5] >= 0 && theta[5] <= 65*PI/180) {
         theta[5] += direction*rad(1);
         if (theta[5] < 0)  theta[5] = rad(0);
         if (theta[5] > 65*PI/180)  theta[5] = rad(65);
+      }
+    }
+    
+    if (ControlMod == Mod.INVERSE_KINEMATIC_MOD) {
+      if (key == 'g' || key == 'G') {
+        sign_d *= -1;
+        delay(200);
       }
     }
   }
@@ -268,4 +281,29 @@ void mouseWheel(MouseEvent event) {  /* ruotando la rotellina del mouse ruoto lo
 void printInfo(String text) {
   println(text);
   connectionFile.println(text);
+}
+
+void printText() {
+  textSize(25);
+  fill(#FF9100); // Colore parametri theta
+  
+  for (i=0; i<MOTORS_NUM; i++) {
+    text("realServoTheta["+i+"]:", 10, 25 + 25*i);
+    text(int(deg(realServoTheta[i])) + "°", 250, 25 + 25*i);
+  }
+  
+  fill(#32DB23); // Colore parametro ControlMod
+  text("ControlMod:", 10, 25+25*7);
+  
+  switch(ControlMod) {
+    case MANUAL_CONTROL:
+      text("MANUAL_CONTROL", 150, 25+25*7);
+    break;
+    case FRAME_MOD:
+      text("FRAME_MOD", 150, 25+25*7);
+    break;
+    case INVERSE_KINEMATIC_MOD:
+      text("INVERSE_KINEMATIC_MOD", 150, 25+25*7);
+    break; 
+  }
 }
