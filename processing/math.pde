@@ -17,10 +17,10 @@ float[] inverseKinematic(float x_d, float y_d, float z_d, float B_d, float W_d) 
   theta_d[0] = atan2(y_d, x_d);
   
   // Calcolo A1 e A2
-  //float A1 = x_d*cos(theta_d[0]) + y_d*sin(theta_d[0]) -d5*sin(PI/2 - B_d);
-  //float A2 = z_d + d5*cos(PI/2 - B_d) - d1;
   float A1 = x_d*cos(theta_d[0]) + y_d*sin(theta_d[0]) - d5*cos(B_d);
-  float A2 = d1 - z_d + - d5*sin(B_d);
+  float A2 = z_d + d5*sin(B_d) - d1;
+  //float A1 = x_d*cos(theta_d[0]) + y_d*sin(theta_d[0]) - d5*cos(B_d);
+  //float A2 = d1 - z_d + - d5*sin(B_d);
   
   
   // Calcolo theta 3
@@ -29,19 +29,29 @@ float[] inverseKinematic(float x_d, float y_d, float z_d, float B_d, float W_d) 
   theta_d[2] = sign_d*acos(num/den);
   
   // Calcolo theta 2
-  //float S = (l2 + l3*cos(theta_d[2]))*A2 - l3*sin(theta_d[2])*A1;
-  //float C = (l2 + l3*sin(theta_d[2]))*A1 + l3*sin(theta_d[2])*A2;
-  float S = (l2 + l3*cos(theta_d[2]))*A2 - l3*sin(theta_d[2])*A1;
-  float C = (l2 + l3*cos(theta_d[2]))*A1 + l3*sin(theta_d[2])*A2;
+  float S_2 = (l2 + l3*cos(theta_d[2]))*A2 - l3*sin(theta_d[2])*A1;
+  float C_2 = (l2 + l3*cos(theta_d[2]))*A1 + l3*sin(theta_d[2])*A2;
   
-  theta_d[1] = atan2(S, C);
+  theta_d[1] = atan2(S_2, C_2);
   
   // Calcolo theta 4
-  //theta_d[3] = PI/2 - theta_d[1] - theta_d[2] - B_d;
-  theta_d[3] = B_d - theta_d[1] - theta_d[2] - PI/2;
+  theta_d[3] = PI/2 - theta_d[1] - theta_d[2] - B_d;
+  //theta_d[3] = B_d - theta_d[1] - theta_d[2] - PI/2;
   
   // Calcolo theta 5
   theta_d[4] = W_d;
+  
+  text("x_d: " + x_d, 800, 25);
+  text("y_d: " + y_d, 800, 50);
+  text("z_d: " + z_d, 800, 75);
+  text("B_d: " + deg(B_d), 800, 100);
+  text("W_d: " + deg(W_d), 800, 125);
+  text("d1: " + d1, 800, 150);
+  text("l2: " + l2, 800, 175);
+  text("l2: " + l3, 800, 200);
+  text("d5: " + d5, 800, 225);
+  
+  
   
   
   fill(THETA_COLOR);
@@ -55,8 +65,8 @@ float[] inverseKinematic(float x_d, float y_d, float z_d, float B_d, float W_d) 
   fill(THETA_COLOR);
   text("theta_3: " + deg(theta_d[2]), 1000, 175);
   fill(VAR_COLOR);
-  text("S: " + S, 1000, 200);
-  text("C: " + C, 1000, 225);
+  text("S_2: " + S_2, 1000, 200);
+  text("C_2: " + C_2, 1000, 225);
   fill(THETA_COLOR);
   text("theta_2: " + deg(theta_d[1]), 1000, 250);
   text("theta_4: " + deg(theta_d[3]), 1000, 275);
@@ -64,17 +74,17 @@ float[] inverseKinematic(float x_d, float y_d, float z_d, float B_d, float W_d) 
   
   
   
-  //float Xd = cos(theta_d[0])*(  d5*sin(theta_d[1]+theta_d[2]+theta_d[3]) + l3*cos(theta_d[1]+theta_d[2]) + l2*cos(theta_d[1])  );
-  //float Yd = sin(theta_d[0])*(  d5*sin(theta_d[1]+theta_d[2]+theta_d[3]) + l3*cos(theta_d[1]+theta_d[2]) + l2*cos(theta_d[1])  );
-  //float Zd = -d5*cos(theta_d[1]+theta_d[2]+theta_d[3]) + l3*sin(theta_d[1]+theta_d[2]) + l2*sin(theta_d[1]) + d1;
-  float Xd = cos(theta_d[0])*(  -d5*sin(theta_d[1]+theta_d[2]+theta_d[3]) + l3*cos(theta_d[1]+theta_d[2]) + l2*cos(theta_d[1])  );
-  float Yd = sin(theta_d[0])*(  -d5*sin(theta_d[1]+theta_d[2]+theta_d[3]) + l3*cos(theta_d[1]+theta_d[2]) + l2*cos(theta_d[1])  );
-  float Zd = -d5*cos(theta_d[1]+theta_d[2]+theta_d[3]) - l3*sin(theta_d[1]+theta_d[2]) - l2*sin(theta_d[1]) + d1;
+  float Xd = cos(theta_d[0])*(  d5*sin(theta_d[1]+theta_d[2]+theta_d[3]) + l3*cos(theta_d[1]+theta_d[2]) + l2*cos(theta_d[1])  );
+  float Yd = sin(theta_d[0])*(  d5*sin(theta_d[1]+theta_d[2]+theta_d[3]) + l3*cos(theta_d[1]+theta_d[2]) + l2*cos(theta_d[1])  );
+  float Zd = -d5*cos(theta_d[1]+theta_d[2]+theta_d[3]) + l3*sin(+theta_d[1]+theta_d[2]) + l2*sin(theta_d[1]) + d1;
+  //float Xd = cos(theta_d[0])*(  -d5*sin(theta_d[1]+theta_d[2]+theta_d[3]) + l3*cos(theta_d[1]+theta_d[2]) + l2*cos(theta_d[1])  );
+  //float Yd = sin(theta_d[0])*(  -d5*sin(theta_d[1]+theta_d[2]+theta_d[3]) + l3*cos(theta_d[1]+theta_d[2]) + l2*cos(theta_d[1])  );
+  //float Zd = -d5*cos(theta_d[1]+theta_d[2]+theta_d[3]) - l3*sin(theta_d[1]+theta_d[2]) - l2*sin(theta_d[1]) + d1;
   
   fill(#FA0F0F);
-  text("Xd: " + Xd, 1000, 325);
-  text("Yd: " + Yd, 1000, 350);
-  text("Zd: " + Zd, 1000, 375);
+  text("Xd: " + round(Xd), 1000, 325);
+  text("Yd: " + round(Yd), 1000, 350);
+  text("Zd: " + round(Zd), 1000, 375);
   
   
   

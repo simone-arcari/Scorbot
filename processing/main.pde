@@ -23,6 +23,13 @@ public enum Mod {
 Mod ControlMod = Mod.MANUAL_CONTROL;                                                                            // flag per la modalità di controllo del robot
 
 
+float x_d = 0;
+float y_d = 276;
+float z_d = 221;
+float B_d = 0;
+float W_d = 0;
+
+
 void setup() {
   size(1280, 720, P3D);                                                                                         // creo la finestra con la taglia in pixel dell'immagine
   smooth(8);                                                                                                    // 8x anti-aliasing
@@ -88,20 +95,14 @@ void draw() {
         theta[i] =  (realServoTheta[i]-thetaOffset[i])/thetaSign[i];
       }
     } else if (ControlMod == Mod.INVERSE_KINEMATIC_MOD) {
-      float[] prova_d = inverseKinematic(0, 200, 250, rad(90), rad(0));
-
-//      theta[0] = prova_d[0] - rad(90);
-//      theta[1] = -prova_d[1];
-//      theta[2] = -prova_d[2];
-//      theta[3] = -prova_d[3];
-//      theta[4] = prova_d[4];
-//      theta[5] = rad(0);
+      z_d = 253 + 32*sin(0.001*millis());
+      float[] theta_denavit_hartenberg = inverseKinematic(x_d, y_d, z_d, rad(B_d), rad(W_d));
       
-      theta[0] = prova_d[0] - rad(90);
-      theta[1] = prova_d[1];
-      theta[2] = prova_d[2];
-      theta[3] = prova_d[3];
-      theta[4] = prova_d[4];
+      theta[0] = theta_denavit_hartenberg[0] - rad(90);
+      theta[1] = -theta_denavit_hartenberg[1];
+      theta[2] = -theta_denavit_hartenberg[2];
+      theta[3] = -theta_denavit_hartenberg[3] + rad(90);
+      theta[4] = theta_denavit_hartenberg[4];
       theta[5] = rad(0);
 
       for (i=0; i<MOTORS_NUM; i++) {
@@ -117,7 +118,16 @@ void draw() {
 
     // Disegno
     drawFloor();  // disegno il pavimento
+    pushMatrix();
+    translate(-xBlock1/2+xBlock2+motorDepth/2, yBlock1/2, gearOffset);
+    translate(y_d, -z_d, x_d);
+    sphere(20);
+    popMatrix();
     drawRobot();  // disegno lo scorbot
+    
+    
+    
+    
 
     // Timer non bloccante
     if (ControlMod == Mod.FRAME_MOD) {
@@ -251,6 +261,37 @@ void keyEvent() {
       if (key == 'g' || key == 'G') {
         sign_d *= -1;
         delay(200);
+      }
+      
+      if (key == 'q' || key == 'G') {
+        x_d--;
+      }
+      if (key == 'w' || key == 'W') {
+        x_d++;
+      }
+      if (key == 'e' || key == 'E') {
+        y_d--;
+      }
+      if (key == 'r' || key == 'R') {
+        y_d++;
+      }
+      if (key == 't' || key == 'T') {
+        z_d--;
+      }
+      if (key == 'y' || key == 'Y') {
+        z_d++;
+      }
+      if (key == 'u' || key == 'U') {
+        B_d--;
+      }
+      if (key == 'i' || key == 'I') {
+        B_d++;
+      }
+      if (key == 'o' || key == 'o') {
+        W_d--;
+      }
+      if (key == 'p' || key == 'P') {
+        W_d++;
       }
     }
   }

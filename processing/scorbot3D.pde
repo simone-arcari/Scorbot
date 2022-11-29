@@ -143,15 +143,15 @@ void drawFloor() {
   rotateY(alpha);
   rotateX(beta);
   box(xFloor, yFloor, zFloor);
+  translate(-xFloor/2+xBlock1/2+xOffsetBase, -(yFloor/2+yBlock1/2), -zFloor/2+zBlock1/2+zOffsetBase);
 }
-
 
 
 void drawRobot() {
   
   // Base
   fill(CHASSIS_COLOR);                                                                                          // imposto colore del robot
-  translate(-xFloor/2+xBlock1/2+xOffsetBase, -(yFloor/2+yBlock1/2), -zFloor/2+zBlock1/2+zOffsetBase);
+   
   box(xBlock1, yBlock1, zBlock1);
   translate(-xBlock1/2+xBlock2/2, -(yBlock1/2+yBlock2/2), 0);
   box(xBlock2, yBlock2, zBlock2);
@@ -161,7 +161,7 @@ void drawRobot() {
   translate(xBlock2/2+motorDepth/2, -yOffsetM1, 0);
   box(motorDepth, motorHeight, motorWidth);
   fill(GEAR_COLOR);                                                                                             // imposto colore ingranaggio
-  translate(0, -(motorHeight/2+gearHeight/2), gearOffset);
+  translate(0, -(motorHeight/2+gearHeight/2), gearOffset);                                                                                                 
   rotateY(theta[0]);                                                                                            // [AXIS.1]----------------------------------------------------------------------------->asse rotazione motore 1
   box(gearDepth, gearHeight, gearWidth);
   rotateY(120*PI/180);                                                                                          // questa rotate serve per disegnare una parte dell'ingranaggio
