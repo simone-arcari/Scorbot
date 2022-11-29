@@ -15,9 +15,9 @@ long FRAMES_RATE = 3000;                                                        
 boolean startFlag = false;                                                                                      // flag per l'inizio del ciclo draw()
 
 public enum Mod {
-  MANUAL_CONTROL, // modalità che permette di controllare gli angoli dei motori manualmente
-    FRAME_MOD, // modalità in cui il robot si muove secondo una serie di frames prefissati
-    INVERSE_KINEMATIC_MOD                                                                                         // modalità in cui il robot si muove secondo il calcolo della cinematica inversa
+  MANUAL_CONTROL,                                                                                               // modalità che permette di controllare gli angoli dei motori manualmente
+    FRAME_MOD,                                                                                                  // modalità in cui il robot si muove secondo una serie di frames prefissati
+    INVERSE_KINEMATIC_MOD                                                                                       // modalità in cui il robot si muove secondo il calcolo della cinematica inversa
 }
 
 Mod ControlMod = Mod.MANUAL_CONTROL;                                                                            // flag per la modalità di controllo del robot
@@ -46,11 +46,9 @@ void setup() {
   connectionFile = createWriter("connection_data.txt");                                                         // apro/creo il file per i dati di connessione alla porta
   positionFile = createWriter("position_data.txt");                                                             // apro/creo il file per i dati delle posizioni del robot
 
-  //serialTryConnect();                                                                                           // tento di avviare la connessione seriale, in caso di fallimento termino il programma
-  /*DEBUG--->*/  portFound=true;
-
-
-
+  serialTryConnect();                                                                                           // tento di avviare la connessione seriale, in caso di fallimento termino il programma
+  /*DEBUG--->*/  //portFound=true;
+  
   xBase = width/2;                                                                                              // coordinata x iniziale spazzio processing
   yBase = 5*(height/6);                                                                                         // coordinata y iniziale spazzio processing
   zBase = -180;                                                                                                 // coordinata z iniziale spazzio processing
@@ -83,55 +81,51 @@ void draw() {
       for (i=0; i<MOTORS_NUM; i++) {
         realServoTheta[i] =  thetaSign[i]*theta[i] + thetaOffset[i];
       }
-      //      serialSendPositions(realServoTheta);
-      //      serialCheckACK();
+      serialSendPositions(realServoTheta);
+      serialCheckACK();
     } else if (ControlMod == Mod.FRAME_MOD) {
       for (i=0; i<MOTORS_NUM; i++) {
         theta[i] =  (realServoTheta[i]-thetaOffset[i])/thetaSign[i];
       }
     } else if (ControlMod == Mod.INVERSE_KINEMATIC_MOD) {
-      float[] prova_d = inverseKinematic(-20, 30, 20, rad(40), rad(10));
+      float[] prova_d = inverseKinematic(0, 200, 250, rad(90), rad(0));
 
-
-      theta[0] = prova_d[0]-PI/2;
-      theta[1] = -prova_d[1];
-      theta[2] = -prova_d[2];
-      theta[3] = -prova_d[3];
+//      theta[0] = prova_d[0] - rad(90);
+//      theta[1] = -prova_d[1];
+//      theta[2] = -prova_d[2];
+//      theta[3] = -prova_d[3];
+//      theta[4] = prova_d[4];
+//      theta[5] = rad(0);
+      
+      theta[0] = prova_d[0] - rad(90);
+      theta[1] = prova_d[1];
+      theta[2] = prova_d[2];
+      theta[3] = prova_d[3];
       theta[4] = prova_d[4];
-      theta[5] = rad(65);
+      theta[5] = rad(0);
 
-      realServoTheta[0] = thetaSign[0]*theta[0] + thetaOffset[0];
-      realServoTheta[1] = theta[1];
-      realServoTheta[2] = theta[2];
-      realServoTheta[3] = theta[3];
-      realServoTheta[4] = theta[4];
-      realServoTheta[5] = theta[5];
-      //for (i=0; i<DOF; i++) {
-      //theta[i] = prova_d[i];
-      //realServoTheta[i] =  thetaSign[i]*theta[i] + thetaOffset[i];
-      // realServoTheta[i] = theta[i];
-      // }
-      //theta[MOTORS_NUM-1] = rad(65);
-      //realServoTheta[MOTORS_NUM-1] =  thetaSign[MOTORS_NUM-1]*theta[MOTORS_NUM-1] + thetaOffset[MOTORS_NUM-1];
-      //realServoTheta[MOTORS_NUM-1] = theta[MOTORS_NUM-1];
-      //      serialSendPositions(realServoTheta);
-      //      serialCheckACK();
+      for (i=0; i<MOTORS_NUM; i++) {
+        realServoTheta[i] =  thetaSign[i]*theta[i] + thetaOffset[i];
+      }
+      
+      serialSendPositions(realServoTheta);
+      serialCheckACK();
     }
 
     // Parametri stampati su schermo
     printText();
 
     // Disegno
-    drawFloor();  // disefno il pavimento
+    drawFloor();  // disegno il pavimento
     drawRobot();  // disegno lo scorbot
 
     // Timer non bloccante
     if (ControlMod == Mod.FRAME_MOD) {
       if (millis()-lastTime >= FRAMES_RATE) {
         lastTime = millis();
-        //        serialSendFrame();  // Inivia i punti memorizzati
+        serialSendFrame();  // Inivia i punti memorizzati
       }
-      //      serialCheckACK();
+      serialCheckACK();
     }
   }
 }
