@@ -4,6 +4,7 @@ float sign_d = -1;    // gomito alto(-1)/basso(+1)
 
 int THETA_COLOR = #F2E442;
 int VAR_COLOR = #C1C1B9;
+int POS_COLOR = #FA0F0F;
 
 
 float[] inverseKinematic(float x_d, float y_d, float z_d, float B_d, float W_d) {
@@ -73,7 +74,7 @@ float[] inverseKinematic(float x_d, float y_d, float z_d, float B_d, float W_d) 
   text("theta_5: " + deg(theta_d[4]), 1000, 300);
   
   
-  
+  // calcolo cinematica diretta per verifica  
   float Xd = cos(theta_d[0])*(  d5*sin(theta_d[1]+theta_d[2]+theta_d[3]) + l3*cos(theta_d[1]+theta_d[2]) + l2*cos(theta_d[1])  );
   float Yd = sin(theta_d[0])*(  d5*sin(theta_d[1]+theta_d[2]+theta_d[3]) + l3*cos(theta_d[1]+theta_d[2]) + l2*cos(theta_d[1])  );
   float Zd = -d5*cos(theta_d[1]+theta_d[2]+theta_d[3]) + l3*sin(+theta_d[1]+theta_d[2]) + l2*sin(theta_d[1]) + d1;
@@ -81,7 +82,7 @@ float[] inverseKinematic(float x_d, float y_d, float z_d, float B_d, float W_d) 
   //float Yd = sin(theta_d[0])*(  -d5*sin(theta_d[1]+theta_d[2]+theta_d[3]) + l3*cos(theta_d[1]+theta_d[2]) + l2*cos(theta_d[1])  );
   //float Zd = -d5*cos(theta_d[1]+theta_d[2]+theta_d[3]) - l3*sin(theta_d[1]+theta_d[2]) - l2*sin(theta_d[1]) + d1;
   
-  fill(#FA0F0F);
+  fill(POS_COLOR);
   text("Xd: " + round(Xd), 1000, 325);
   text("Yd: " + round(Yd), 1000, 350);
   text("Zd: " + round(Zd), 1000, 375);
