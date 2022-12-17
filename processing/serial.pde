@@ -90,19 +90,24 @@ boolean checkPortName(String name) {
 
 
 void serialSendPositions(float[] angle) {
-  if (ack_flag == true) {
-    
+  if (ack_flag == true) 
+  {    
     ack_flag = false;
     port.write(PROCESSING_ID);
     
-    for (j=0; j<MOTORS_NUM; j++) {
+    for (j=0; j<MOTORS_NUM; j++) 
+    {
       point_ascii = Integer.toString((int)deg(angle[j]));
 
       if (point_ascii.length() == 2)
+      {
         point_ascii = "0" + point_ascii;
+      }
 
       if (point_ascii.length() == 1)
+      {
         point_ascii = "00" + point_ascii;
+      }
 
       port.write(point_ascii);
       positionFile.println("punto: " + (int)deg(angle[j]));
@@ -113,22 +118,27 @@ void serialSendPositions(float[] angle) {
 
 
 void serialSendFrame() {
-  if (ack_flag == true) {
-
+  if (ack_flag == true) 
+  {
     ack_flag = false;
     port.write(PROCESSING_ID);
     positionFile.println("[message] --> coordinate frame: " + pointCount);
     println("[message] --> coordinate frame: " + pointCount);
 
-    for (j=0; j<MOTORS_NUM; j++) {
+    for (j=0; j<MOTORS_NUM; j++) 
+    {
       realServoTheta[j] = rad(float(punti[pointCount][j]));
       point_ascii = Integer.toString(punti[pointCount][j]);
 
       if (point_ascii.length() == 2)
+      {
         point_ascii = "0" + point_ascii;
+      }
 
       if (point_ascii.length() == 1)
+      {
         point_ascii = "00" + point_ascii;
+      }
 
       port.write(point_ascii);
       positionFile.println("punto: " + punti[pointCount][j]);
@@ -142,11 +152,14 @@ void serialSendFrame() {
 
 
 void serialCheckACK() {
-  if (port.available() >= ARDUINO_ID.length()) {
+  if (port.available() >= ARDUINO_ID.length()) 
+  {
     id = port.readString();
     println("[message] --> " + id);
 
     if (id.equals(ARDUINO_ID))
+    {
       ack_flag = true;
+    }
   }
 }

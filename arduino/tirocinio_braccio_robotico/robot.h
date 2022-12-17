@@ -3,6 +3,12 @@
 
 #include <Servo.h>
 
+#define posInit1 90
+#define posInit2 53
+#define posInit3 138
+#define posInit4 169
+#define posInit5 0
+#define posInit6 65
 
 typedef struct point {
 
@@ -30,8 +36,8 @@ typedef struct pwmpin {
 class Robot {
 
   public:
-    /* attributes */
-    pwmpin_t pwmPins;   // pin per i servomotori
+    /* Attributes */
+    
     /* servomotor objects */
     Servo s1;
     Servo s2;
@@ -40,8 +46,10 @@ class Robot {
     Servo s5;
     Servo s6;
 
+    pwmpin_t pwmPins;   // pin per i servomotori
+
     /* methods */
-    Robot(pwmpin_t);  // costruttore tipo 1
+    Robot(pwmpin_t);  // costruttore
     void setupRobot(void);
     void setPosition(point_t*);
 };
@@ -66,6 +74,13 @@ void Robot::setupRobot(void) {
   s4.attach(pwmPins.pwm4Pin);
   s5.attach(pwmPins.pwm5Pin);
   s6.attach(pwmPins.pwm6Pin);
+
+  s1.write(posInit1);
+  s2.write(posInit2);
+  s3.write(posInit3);
+  s4.write(posInit4);
+  s5.write(posInit5);
+  s6.write(posInit6);
 }
 
 void Robot::setPosition(point_t *pos) {

@@ -110,8 +110,8 @@ float offsetPinza = zBlock16/2*sin(omega);                                      
 // Variabili varie
 int direction = 1;                                                                                              // verso rotazione motori per la modalità a controllo manuale
 int MOTORS_NUM = 6;                                                                                             // numero motori = numero di coordinate per ogni frames
-int MAX_FRAMES = 10 ;                                                                                           // numero massimo di frames(ogni frames ha sei coordinate)
-int[][] punti = new int[MAX_FRAMES][MOTORS_NUM];                                                                // matrice di punti / coordinate
+int FRAMES_NUM = 10 ;                                                                                           // numero massimo di frames(ogni frames ha sei coordinate)
+int[][] punti = new int[FRAMES_NUM][MOTORS_NUM];                                                                // matrice di punti / coordinate
 int pointCount = 0;                                                                                             // contatore dei punti/frame presenti nella sequenza
 
 // Angoli d'interesse
@@ -138,7 +138,7 @@ int GEAR_COLOR = #A09908;                                                       
 
 
 void drawFloor() {
-  fill(FLOOR_COLOR);                                                                                            // impost0 colore del pavimento
+  fill(FLOOR_COLOR);                                                                                            // imposto colore del pavimento
   translate(xBase, yBase, zBase);
   rotateY(alpha);
   rotateX(beta);
