@@ -30,8 +30,6 @@ Mod ControlMod = Mod.MANUAL_CONTROL;                                            
 
 
 
-
-
 void setup() {
   size(1280, 720, P3D);                                                                                         // creo la finestra con la taglia in pixel dell'immagine
   smooth(8);                                                                                                    // 8x anti-aliasing
@@ -76,6 +74,7 @@ void setup() {
     punti[i][5] = (int)random(0, 65);
   }
 }
+
 
 
 void draw() {
