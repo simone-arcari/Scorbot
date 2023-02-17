@@ -11,7 +11,7 @@ int RECT_HEIGHT = 100;                                                          
 
 long lastTime;                                                                                                  // variabile per contenere le misure di millis()
 long MAX_TIME_LOOP = 10000;                                                                                     // tempo massimo per il ciclo di connessione prima di fallire
-long FRAMES_RATE = 0;                                                                                           // rate di invio delle coordinate tra un frame e l'altro in ms
+long FRAMES_RATE = 100;                                                                                         // rate di invio delle coordinate tra un frame e l'altro in ms
 
 boolean startFlag = false;                                                                                      // flag per l'inizio del ciclo draw()
 
