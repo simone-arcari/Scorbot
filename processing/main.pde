@@ -2,6 +2,7 @@ PImage background;                                                              
 
 PrintWriter connectionFile;                                                                                     // reference per il file con i dati di connessione alla porta
 PrintWriter positionFile;                                                                                       // reference per il file con i dati sulle posizioni del robot
+PrintWriter framesFile;                                                                                         // reference per il file utilizzato per salvare gli angoli per i frames
 
 int i, j;                                                                                                       // indici per i vari cicli
 int offset;                                                                                                     // variabile di appoggio per gestire coordinate varie
@@ -10,7 +11,7 @@ int RECT_HEIGHT = 100;                                                          
 
 long lastTime;                                                                                                  // variabile per contenere le misure di millis()
 long MAX_TIME_LOOP = 10000;                                                                                     // tempo massimo per il ciclo di connessione prima di fallire
-long FRAMES_RATE = 3000;                                                                                        // rate di invio delle coordinate tra un frame e l'altro
+long FRAMES_RATE = 0;                                                                                           // rate di invio delle coordinate tra un frame e l'altro in ms
 
 boolean startFlag = false;                                                                                      // flag per l'inizio del ciclo draw()
 
@@ -52,6 +53,7 @@ void setup() {
 
   connectionFile = createWriter("connection_data.txt");                                                         // apro/creo il file per i dati di connessione alla porta
   positionFile = createWriter("position_data.txt");                                                             // apro/creo il file per i dati delle posizioni del robot
+  //framesFile = createWriter("frames_data.txt");                                                                 // apro/creo il file per prelevare i dari sui frames memorizzati
 
   serialTryConnect();                                                                                           // tento di avviare la connessione seriale, in caso di fallimento termino il programma
   
@@ -65,13 +67,23 @@ void setup() {
   }
 
   // per ogni frames i-esimo inizializzo un i-esimo punto(frames) ovvero un insieme di 6 angoli per i 6 motori
-  for (i=0; i<FRAMES_NUM; i++) {    
-    frames[i][0] = (int)random(0, 180);
-    frames[i][1] = (int)random(0, 180);
-    frames[i][2] = (int)random(0, 180);
-    frames[i][3] = (int)random(0, 180);
-    frames[i][4] = (int)random(0, 180);
-    frames[i][5] = (int)random(0, 65);
+  try {
+    String[] linee = loadStrings("frames_data.txt");
+    if (linee != null) { 
+      FRAMES_NUM = linee.length/MOTORS_NUM;
+      frames = new int[FRAMES_NUM][MOTORS_NUM]; 
+      
+      for (i=0; i<FRAMES_NUM; i++) {        
+        frames[i][0] = int(linee[i*MOTORS_NUM]);
+        frames[i][1] = int(linee[i*MOTORS_NUM + 1]);
+        frames[i][2] = int(linee[i*MOTORS_NUM + 2]);
+        frames[i][3] = int(linee[i*MOTORS_NUM + 3]);
+        frames[i][4] = int(linee[i*MOTORS_NUM + 4]);
+        frames[i][5] = int(linee[i*MOTORS_NUM + 5]);
+      }
+    }
+  } catch (Exception e) {
+    e.printStackTrace();
   }
 }
 
@@ -96,9 +108,12 @@ void draw() {
         realServoTheta[i] =  thetaSign[i]*theta[i] + thetaOffset[i];
       }
       
+      /* comunicazione */
       serialSendPositions(realServoTheta);
       serialCheckACK();
-    } 
+    }
+   
+   
     else if (ControlMod == Mod.FRAME_MOD) // Calcolo theta[](angolo dipendente) e thetaDenavitHartenberg[](angolo dipendente) a partire dal valore di realServoTheta[](angolo indipendente)
     {
       for (i=0; i<MOTORS_NUM; i++) 
@@ -111,7 +126,11 @@ void draw() {
       thetaDenavitHartenberg[2] = -theta[2];
       thetaDenavitHartenberg[3] = -theta[3] + rad(90);
       thetaDenavitHartenberg[4] =  theta[4];
-    } 
+      
+      /* la comunicazione non avviene qui (riga 161)*/
+    }
+    
+    
     else if (ControlMod == Mod.INVERSE_KINEMATIC_MOD) // Calcolo theta[](angolo dipendente) e realServoTheta[](angolo dipendente) a partire dal valore di thetaDenavitHartenberg[](angolo indipendente)
     {
       z_d = 253 + 32*sin(0.001*millis());
@@ -127,8 +146,10 @@ void draw() {
       for (i=0; i<MOTORS_NUM; i++) 
       {
         realServoTheta[i] =  thetaSign[i]*theta[i] + thetaOffset[i];
+        //framesFile.println(int(deg(realServoTheta[i])));
       }
       
+      /* comunicazione */
       serialSendPositions(realServoTheta);
       serialCheckACK();
     }
@@ -175,10 +196,16 @@ void keyEvent() {
     {
       connectionFile.println("[message] --> chiusura comunicazione seriale");
       connectionFile.println("[PROGRAMMA ARRESTATO]");
+      
       connectionFile.flush();
       connectionFile.close();
+      
       positionFile.flush();
       positionFile.close();
+      
+      //framesFile.flush();
+      //framesFile.close();
+      
       port.stop();  // interronpo la comunicazione con la porta corrente non essendo quella corretta
       exit();
     }

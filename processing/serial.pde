@@ -165,8 +165,8 @@ void serialSendFrame() {
       }
 
       port.write(point_ascii);
-      positionFile.println("punto: " + frames[framesCount][j]);
-      println("punto: " + frames[framesCount][j] + ", in ascii: " + point_ascii);
+      positionFile.println("angle[" + j + "]: " + frames[framesCount][j]);
+      println("angle[" + j + "]: " + frames[framesCount][j] + ", in ascii: " + point_ascii);
     }
 
     framesCount++;
