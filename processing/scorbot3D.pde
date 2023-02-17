@@ -111,8 +111,8 @@ float offsetPinza = zBlock16/2*sin(omega);                                      
 int direction = 1;                                                                                              // verso rotazione motori per la modalità a controllo manuale
 int MOTORS_NUM = 6;                                                                                             // numero motori = numero di coordinate per ogni frames
 int FRAMES_NUM = 10 ;                                                                                           // numero massimo di frames(ogni frames ha sei coordinate)
-int[][] punti = new int[FRAMES_NUM][MOTORS_NUM];                                                                // matrice di punti / coordinate
-int pointCount = 0;                                                                                             // contatore dei punti/frame presenti nella sequenza
+int[][] frames = new int[FRAMES_NUM][MOTORS_NUM];                                                               // matrice di frames / angoli
+int framesCount = 0;                                                                                            // contatore dei punti/frame presenti nella sequenza
 
 // Angoli d'interesse
 float alpha = 0;

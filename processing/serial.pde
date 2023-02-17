@@ -1,5 +1,5 @@
 /*
-  [NOTA][LINUX]in caso di errore:
+ [NOTA][LINUX]in caso di errore:
  
  RuntimeException: Error opening serial port /dev/ttyACM0: Permission denied
  
@@ -7,7 +7,7 @@
  sudo groupadd dialout
  sudo gpasswd -a "user" dialout
  sudo usermod -a -G dialout "user"
- sudo chmod a+rw /dev/ttyACM0
+ sudo chmod a+rw /dev/ttyACM0  (se la porta non è ttyACM0 sostituire con il nome corretto)
  
  */
 import processing.serial.*;
@@ -23,7 +23,7 @@ String portName;                                                                
 String buffer;                                                                                                  // buffer d'appoggio per letture e scritture varie
 String ARDUINO_ID = "ARO22ARL";                                                                                 // codice identificazione della scheda arduino
 String PROCESSING_ID = "PRO04IDE";                                                                              // codice identificazione di questo programma
-String[] portNames = {"COM0", "COM1", "COM2", "COM3", "COM4", "COM5", "COM6", "COM7", "/dev/ttyACM0"};                          // vettore delle possibili porte seriali
+String[] portNames = {"COM0", "COM1", "COM2", "COM3", "COM4", "COM5", "COM6", "COM7", "/dev/ttyACM0"};          // vettore delle possibili porte seriali
 String point_ascii;                                                                                             // valore di point in formato ascii
 
 int count = 0;                                                                                                  // contatore dei cicli di connessione
@@ -42,8 +42,8 @@ void serialTryConnect() {
       printInfo("[message] --> port reference = " + port);                                                                  // stampo su terminale processing e su file dati di connessione
       lastTime = millis();                                                                                                  // salvo il valore del tempo corrente in millisecondi
 
-      while (loop_flag && (millis()-lastTime) < MAX_TIME_LOOP) {                                                            // ciclo finche la porta seriale non diventa disponibile o finchè nonscadeil tempo disponibile
-        println("ciclo: " + count);                                                                                               // messaggio da stampare solo su terminale
+      while (loop_flag && (millis()-lastTime) < MAX_TIME_LOOP) {                                                            // ciclo finché la porta seriale non diventa disponibile o finché non scade il tempo disponibile
+        println("ciclo: " + count);                                                                                               // messaggio da stampare solo su console
         count++;                                                                                                                  // incremento il contatore dei cicli
 
         if (port.available() >= ARDUINO_ID.length()) {                                                                            // verifico che siano disponibili tot byte da leggere
@@ -58,7 +58,7 @@ void serialTryConnect() {
           } else {                                                                                                                      // il messaggio letto non corrisponde al codice di identificazione
             printInfo("[message] --> id non corretto");                                                                                       // stampo su terminale processing e su file dati di connessione
             printInfo("[message] --> fine comunicazione con porta: " + portName);                                                             // stampo su terminale processing e su file dati di connessione
-            port.stop();                                                                                                                      // interronpo la comunicazione con la porta corrente non essendo quella corretta
+            port.stop();                                                                                                                      // interrompo la comunicazione con la porta corrente non essendo quella corretta
           }
         }
       }
@@ -80,7 +80,13 @@ void serialTryConnect() {
 }
 
 
-boolean checkPortName(String name) {
+/* Per scopo didattico è stata implmentata la funzionalità che solo le porte i cui nomi
+ * sono presenti nel vettore portNames[] vanno considerate come porte valide per la 
+ * comunicazione con la scheda arduino.
+ * Se si vuole aggiungere altre porte basta aggingerle nell definizione del vettore 
+ * alla riga 26 di questo file
+ */
+boolean checkPortName(String name) { 
   for (i=0; i<portNames.length; i++) {
     if (name.equals(portNames[i]))
       return true;
@@ -88,7 +94,14 @@ boolean checkPortName(String name) {
   return false;
 }
 
-
+/*
+ * Invia gli angoli da far attuare ai servomotori:
+ * prima comunica il codice identificativo di questo programma (PROCESSING_ID)
+ * successivamente comunica i 6 angoli nella loro rappresentazione a caratteri
+ * Se un numero ha mene di tre cifre intere (come 7°) viene inviata sempre
+ * una stringa da tre caratteri (come "007") per motivi di compatibilità 
+ * è semplicità di ricezione dei dati.
+ */
 void serialSendPositions(float[] angle) {
   if (ack_flag == true) 
   {    
@@ -110,25 +123,36 @@ void serialSendPositions(float[] angle) {
       }
 
       port.write(point_ascii);
-      positionFile.println("punto: " + (int)deg(angle[j]));
-      println("punto: " + (int)deg(angle[j]) + ", in ascii: " + point_ascii);
+      positionFile.println("angle[" + j + "]: " + (int)deg(angle[j]));
+      println("angle[" + j + "]: " + (int)deg(angle[j]) + ", in ascii: " + point_ascii);
     }
   }
 }
 
 
+/*
+ * Invia gli angoli da far attuare ai servomotori memorizzati nella matrice frames[][]
+ * prima comunica il codice identificativo di questo programma (PROCESSING_ID)
+ * successivamente comunica i 6 angoli nella loro rappresentazione a caratteri
+ * Se un numero ha mene di tre cifre intere (come 7°) viene inviata sempre
+ * una stringa da tre caratteri (come "007") per motivi di compatibilità 
+ * è semplicità di ricezione dei dati.
+ * La matrice frames[FRAMES_NUM][MOTORS_NUM] per ogni indice di FRAMES_NUM 
+ * contine 6 angoli da attuare, l'indice usato per FRAMES_NUM è framesCount e viene
+ * incrementato ad ogni chiamata di questa funzione.
+ */
 void serialSendFrame() {
   if (ack_flag == true) 
   {
     ack_flag = false;
     port.write(PROCESSING_ID);
-    positionFile.println("[message] --> coordinate frame: " + pointCount);
-    println("[message] --> coordinate frame: " + pointCount);
+    positionFile.println("[message] --> coordinate frame: " + framesCount);
+    println("[message] --> coordinate frame: " + framesCount);
 
     for (j=0; j<MOTORS_NUM; j++) 
     {
-      realServoTheta[j] = rad(float(punti[pointCount][j]));
-      point_ascii = Integer.toString(punti[pointCount][j]);
+      realServoTheta[j] = rad(float(frames[framesCount][j]));
+      point_ascii = Integer.toString(frames[framesCount][j]);
 
       if (point_ascii.length() == 2)
       {
@@ -141,16 +165,17 @@ void serialSendFrame() {
       }
 
       port.write(point_ascii);
-      positionFile.println("punto: " + punti[pointCount][j]);
-      println("punto: " + punti[pointCount][j] + ", in ascii: " + point_ascii);
+      positionFile.println("punto: " + frames[framesCount][j]);
+      println("punto: " + frames[framesCount][j] + ", in ascii: " + point_ascii);
     }
 
-    pointCount++;
-    if (pointCount >= 10) pointCount = 0;
+    framesCount++;
+    if (framesCount >= FRAMES_NUM) framesCount = 0;
   }
 }
 
 
+/* Verifica che la scheda arduino abbia inviato il suo codice identificativo (ARDUINO_ID)*/
 void serialCheckACK() {
   if (port.available() >= ARDUINO_ID.length()) 
   {

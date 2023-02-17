@@ -26,7 +26,7 @@ public enum Mod {
     INVERSE_KINEMATIC_MOD                                                                                       // modalità in cui il robot si muove secondo il calcolo della cinematica inversa
 }
 
-Mod ControlMod = Mod.MANUAL_CONTROL;                                                                            // flag per la modalità di controllo del robot
+Mod ControlMod = Mod.INVERSE_KINEMATIC_MOD;                                                                     // flag per la modalità iniziale di controllo del robot
 
 
 
@@ -54,7 +54,6 @@ void setup() {
   positionFile = createWriter("position_data.txt");                                                             // apro/creo il file per i dati delle posizioni del robot
 
   serialTryConnect();                                                                                           // tento di avviare la connessione seriale, in caso di fallimento termino il programma
-  /*DEBUG--->*/  //portFound=true;
   
   xBase = width/2;                                                                                              // coordinata x iniziale spazzio processing
   yBase = 5*(height/6);                                                                                         // coordinata y iniziale spazzio processing
@@ -65,16 +64,16 @@ void setup() {
     realServoTheta[i] =  thetaSign[i]*theta[i] + thetaOffset[i];
   }
 
-  for (i=0; i<FRAMES_NUM; i++) {    // per ogni frames
-    punti[i][0] = (int)random(0, 180);
-    punti[i][1] = (int)random(0, 180);
-    punti[i][2] = (int)random(0, 180);
-    punti[i][3] = (int)random(0, 180);
-    punti[i][4] = (int)random(0, 180);
-    punti[i][5] = (int)random(0, 65);
+  // per ogni frames i-esimo inizializzo un i-esimo punto(frames) ovvero un insieme di 6 angoli per i 6 motori
+  for (i=0; i<FRAMES_NUM; i++) {    
+    frames[i][0] = (int)random(0, 180);
+    frames[i][1] = (int)random(0, 180);
+    frames[i][2] = (int)random(0, 180);
+    frames[i][3] = (int)random(0, 180);
+    frames[i][4] = (int)random(0, 180);
+    frames[i][5] = (int)random(0, 65);
   }
 }
-
 
 
 void draw() {
@@ -82,34 +81,47 @@ void draw() {
     background(0);
     lights();
 
-    keyEvent();
+    keyEvent();  // Comandi da tastiera
 
-    if (ControlMod == Mod.MANUAL_CONTROL) // Calcolo relazioni tra angoli veri(servomotori) e angoli fittizzi(processing space)
+    if (ControlMod == Mod.MANUAL_CONTROL) // Calcolo thetaDenavitHartenberg[](angolo dipendente) e realServoTheta[](angolo dipendente) a partire dal valore di theta[](angolo indipendente)
     {
+      thetaDenavitHartenberg[0] =  theta[0] + rad(90);
+      thetaDenavitHartenberg[1] = -theta[1];
+      thetaDenavitHartenberg[2] = -theta[2];
+      thetaDenavitHartenberg[3] = -theta[3] + rad(90);
+      thetaDenavitHartenberg[4] =  theta[4];
+      
       for (i=0; i<MOTORS_NUM; i++) 
       {
         realServoTheta[i] =  thetaSign[i]*theta[i] + thetaOffset[i];
       }
+      
       serialSendPositions(realServoTheta);
       serialCheckACK();
     } 
-    else if (ControlMod == Mod.FRAME_MOD) // Calcolo relazioni tra angoli veri(servomotori) e angoli fittizzi(processing space)
+    else if (ControlMod == Mod.FRAME_MOD) // Calcolo theta[](angolo dipendente) e thetaDenavitHartenberg[](angolo dipendente) a partire dal valore di realServoTheta[](angolo indipendente)
     {
       for (i=0; i<MOTORS_NUM; i++) 
       {
         theta[i] =  (realServoTheta[i]-thetaOffset[i])/thetaSign[i];
       }
+      
+      thetaDenavitHartenberg[0] =  theta[0] + rad(90);
+      thetaDenavitHartenberg[1] = -theta[1];
+      thetaDenavitHartenberg[2] = -theta[2];
+      thetaDenavitHartenberg[3] = -theta[3] + rad(90);
+      thetaDenavitHartenberg[4] =  theta[4];
     } 
-    else if (ControlMod == Mod.INVERSE_KINEMATIC_MOD) 
+    else if (ControlMod == Mod.INVERSE_KINEMATIC_MOD) // Calcolo theta[](angolo dipendente) e realServoTheta[](angolo dipendente) a partire dal valore di thetaDenavitHartenberg[](angolo indipendente)
     {
       z_d = 253 + 32*sin(0.001*millis());
       thetaDenavitHartenberg = inverseKinematic(x_d, y_d, z_d, rad(B_d), rad(W_d));
       
-      theta[0] = thetaDenavitHartenberg[0] - rad(90);
+      theta[0] =  thetaDenavitHartenberg[0] - rad(90);
       theta[1] = -thetaDenavitHartenberg[1];
       theta[2] = -thetaDenavitHartenberg[2];
       theta[3] = -thetaDenavitHartenberg[3] + rad(90);
-      theta[4] = thetaDenavitHartenberg[4];
+      theta[4] =  thetaDenavitHartenberg[4];
       theta[5] = rad(0);
 
       for (i=0; i<MOTORS_NUM; i++) 
@@ -141,7 +153,7 @@ void draw() {
     if (ControlMod == Mod.FRAME_MOD) {
       if (millis()-lastTime >= FRAMES_RATE) {
         lastTime = millis();
-        serialSendFrame();  // Inivia i punti memorizzati
+        serialSendFrame();  // Inivia i frames memorizzati
       }
       serialCheckACK();
     }
@@ -292,7 +304,7 @@ void keyEvent() {
         delay(200);
       }
       
-      if (key == 'q' || key == 'G') 
+      if (key == 'q' || key == 'Q') 
       {
         x_d--;
       }
@@ -353,13 +365,13 @@ void mouseWheel(MouseEvent event) {  /* ruotando la rotellina del mouse ruoto lo
 }
 
 
-void printInfo(String text) {
+void printInfo(String text) {  /* serve per stampare sia sulla console che su file */
   println(text);
   connectionFile.println(text);
 }
 
 
-void printText() {
+void printText() {  /* si occupa delle stampe a schermo delle possibili rapresentazioni degli angoli e della modalità corrente */
   textSize(25);
 
   for (i=0; i<MOTORS_NUM; i++) 
