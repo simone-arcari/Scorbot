@@ -43,7 +43,7 @@ void serialTryConnect() {
       lastTime = millis();                                                                                                  // salvo il valore del tempo corrente in millisecondi
 
       while (loop_flag && (millis()-lastTime) < MAX_TIME_LOOP) {                                                            // ciclo finché la porta seriale non diventa disponibile o finché non scade il tempo disponibile
-        println("ciclo: " + count);                                                                                               // messaggio da stampare solo su console
+        println("tentativo di connessione numero #" + count);                                                                                               // messaggio da stampare solo su console
         count++;                                                                                                                  // incremento il contatore dei cicli
 
         if (port.available() >= ARDUINO_ID.length()) {                                                                            // verifico che siano disponibili tot byte da leggere

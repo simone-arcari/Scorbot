@@ -125,16 +125,22 @@ float[] thetaOffset = {rad(90),rad(0),rad(90),rad(90),rad(0),rad(65)};
 
 // Parametri Scorbot
 float d1 = yBlock1+yBlock2/2+yOffsetM1+motorHeight/2+gearHeight+motorDepth/2;
+float d4 = 4;
+float d5 = 197;
 float l2 = 2*xBlock6-motorDepth+xBlock7/2;
 float l3 = -motorWidth/2+gearOffset+xBlock8+xBlock6-motorDepth/2;
-float d5 = 196;
+float a4 = 23.5;
+
 
 // Colori
-int FLOOR_COLOR = #E5E06D;                                                                                      // colore del pavimento
+int FLOOR_COLOR   = #E5E06D;                                                                                    // colore del pavimento
 int CHASSIS_COLOR = #C4C0C0;                                                                                    // colore del robot
-int MOTOR_COLOR = #000000;                                                                                      // colore motori
-int GEAR_COLOR = #A09908;                                                                                       // colore ingranaggi
+int MOTOR_COLOR   = #000000;                                                                                    // colore motori
+int GEAR_COLOR    = #A09908;                                                                                    // colore ingranaggi
+int SPHERE_COLOR  = #27D8CE;                                                                                    // colore della sfere posizionata in (x_d, y_d, z_d)
+int STANDARD_STROKE_COLOR = #FAFAFA;                                                                            // colore di default per le linee di contorno 
 
+float SPHERE_RADIUS = 4;
 
 
 void drawFloor() {
@@ -348,4 +354,19 @@ void drawRobot() {
   rotateY(omega);                                                                                               // numericamente sarebbe: rotateY(9.59*PI/180);
   translate(xBlock18/2, 0, 0);
   box(xBlock18, yBlock18, zBlock18);
+}
+
+void drawBall() {
+  pushMatrix();
+  
+  translate(-xBlock1/2+xBlock2+motorDepth/2, yBlock1/2, gearOffset);
+  translate(y_d, -z_d, x_d);
+  
+  fill(SPHERE_COLOR);
+  stroke(SPHERE_COLOR);
+  
+  sphere(SPHERE_RADIUS);
+  
+  stroke(STANDARD_STROKE_COLOR);
+  popMatrix();
 }

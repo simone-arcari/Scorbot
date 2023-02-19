@@ -66,8 +66,8 @@ void setup() {
     realServoTheta[i] =  thetaSign[i]*theta[i] + thetaOffset[i];
   }
 
-  // per ogni frames i-esimo inizializzo un i-esimo punto(frames) ovvero un insieme di 6 angoli per i 6 motori
-  try {
+  // per ogni frame i-esimo inizializzo un i-esima configurazione(frames[][]) ovvero un insieme di 6 angoli per i 6 motori
+  try { // Provo a leggere i dati memorizzati nel file
     String[] linee = loadStrings("frames_data.txt");
     if (linee != null) { 
       FRAMES_NUM = linee.length/MOTORS_NUM;
@@ -82,14 +82,15 @@ void setup() {
         frames[i][5] = int(linee[i*MOTORS_NUM + 5]);
       }
     }
-  } catch (Exception e) {
+  } catch (Exception e) { // In caso di errore/eccezione stampo lo StackTrace
     e.printStackTrace();
+    println("[Possibile Errore nella lettura del file frames_data.txt]");
   }
 }
 
 
 void draw() {
-  if (startFlag == true) {
+  if (startFlag == true) { // Il contenuto del draw viene eseguito solo dopo che l'utente preme il tasto ctrl (dopo l'avvenuta connessione con la scheda arduino) 
     background(0);
     lights();
 
@@ -133,7 +134,9 @@ void draw() {
     
     else if (ControlMod == Mod.INVERSE_KINEMATIC_MOD) // Calcolo theta[](angolo dipendente) e realServoTheta[](angolo dipendente) a partire dal valore di thetaDenavitHartenberg[](angolo indipendente)
     {
-      z_d = 253 + 32*sin(0.001*millis());
+      //x_d = 150*sin(0.0001*millis());
+      //y_d = 150*sin(0.0003*millis());
+      //z_d = 253 + 32*sin(0.001*millis());
       thetaDenavitHartenberg = inverseKinematic(x_d, y_d, z_d, rad(B_d), rad(W_d));
       
       theta[0] =  thetaDenavitHartenberg[0] - rad(90);
@@ -159,22 +162,15 @@ void draw() {
 
     // Disegno spazio 3D
     drawFloor();  // disegno il pavimento
-    pushMatrix();
-    translate(-xBlock1/2+xBlock2+motorDepth/2, yBlock1/2, gearOffset);
-    translate(y_d, -z_d, x_d);
-    fill(#27D8CE);
-    stroke(#27D8CE);
-    sphere(10);
-    stroke(#FAFAFA);
-    popMatrix();
+    drawBall();    // disegna la pallina
     drawRobot();  // disegno lo scorbot
     
     
-    // Timer non bloccante
+    // Timer non bloccante per 
     if (ControlMod == Mod.FRAME_MOD) {
       if (millis()-lastTime >= FRAMES_RATE) {
         lastTime = millis();
-        serialSendFrame();  // Inivia i frames memorizzati
+        serialSendFrame();  // Inivia i frames memorizzati (uno per ogni chiamata di questa funzione)
       }
       serialCheckACK();
     }
