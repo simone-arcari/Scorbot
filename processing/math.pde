@@ -10,7 +10,7 @@ int POS_COLOR = #2279F0;
 float[] thetaDenavitHartenberg = new float[DOF];
 
 float[] inverseKinematic(float x_d, float y_d, float z_d, float B_d, float W_d) {
-  /******************************************************************************/
+  //******************************************************************************/
   // La cinematica è stata inizialmente ricavata per un robot Scorbot con una 
   // struttura diversa da quella del robot effettivamente utilizzato.
   // Siccome la diferenza strutturale era relativa unicamente al montaggio 
@@ -24,7 +24,7 @@ float[] inverseKinematic(float x_d, float y_d, float z_d, float B_d, float W_d) 
   // tanto basta solo annulare questa traslazione
   /******************************************************************************/
 
-     //<>// //<>//
+     //<>//
   // Calcolo theta 1
   float theta1_primo = atan2(y_d, x_d);
   theta_d[0] = atan2(y_d + d4*cos(theta1_primo), x_d - d4*sin(theta1_primo));
