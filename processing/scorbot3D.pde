@@ -31,6 +31,9 @@ float zBlock2 = 90;                                                             
 // Spostamento verticale motore1
 float yOffsetM1 = 17;                                                                                           // 1.7cm
 
+// Spostamento in profondità Gabbia motore1
+float zOffsetGM1 = 4;                                                                                           // 0.4cm
+
 // Gabbia motore1
 float xBlock3 = 62;                                                                                             // 6.2cm
 float yBlock3 = 2;                                                                                              // 0.2cm
@@ -93,13 +96,13 @@ float zOffsetM6 = 8;                                                            
 float yOffsetM6 = gearHeight-4;                                                                                 // 0.8cm
 
 // Pinza
-float xBlock16 = 20;//40;                                                                                            // 4cm
+float xBlock16 = 20;                                                                                            // 4cm
 float yBlock16 = 5;                                                                                             // 0.5cm
 float zBlock16 = 10;                                                                                            // 1cm
-float xBlock17 = 20; //30;                                                                                            // 3cm
+float xBlock17 = 20;                                                                                            // 3cm
 float yBlock17 = yBlock16;                                                                                      // 0.5cm
 float zBlock17 = zBlock16;                                                                                      // 1cm
-float xBlock18 = 25;//35;                                                                                            // 3.5cm
+float xBlock18 = 25;                                                                                            // 3.5cm
 float yBlock18 = yBlock16;                                                                                      // 0.5cm
 float zBlock18 = zBlock16;                                                                                      // 1cm
 
@@ -125,11 +128,11 @@ float[] thetaOffset = {rad(90),rad(0),rad(90),rad(90),rad(0),rad(65)};
 
 // Parametri Scorbot
 float d1 = yBlock1+yBlock2/2+yOffsetM1+motorHeight/2+gearHeight+motorDepth/2;
-float d4 = 4;
+float d4 = 0;
 float d5 = 155.5;
 float l2 = 2*xBlock6-motorDepth+xBlock7/2;
 float l3 = -motorWidth/2+gearOffset+xBlock8+xBlock6-motorDepth/2;
-float a4 = 23.5;
+float a4 = 26.5;
 
 
 // Colori
@@ -178,7 +181,7 @@ void drawRobot() {
 
   // Gabbia motore1
   fill(CHASSIS_COLOR);                                                                                          // imposto colore del robot
-  translate(xBlock3/2-motorDepth/2, motorHeight+yBlock3/2+gearHeight/2, 0);
+  translate(xBlock3/2-motorDepth/2, motorHeight+yBlock3/2+gearHeight/2, -zOffsetGM1);
   box(xBlock3, yBlock3, zBlock3);
   translate(xBlock3/2-xBlock4/2, -yBlock4/2+yBlock3/2, 0);
   box(xBlock4, yBlock4, zBlock4);
@@ -319,7 +322,7 @@ void drawRobot() {
   fill(CHASSIS_COLOR);                                                                                          // imposto colore del robot
   pushMatrix();                                                                                                 // memorizzo il sistema di riferimeto attuale
 
-  translate(zBlock16, 0, zBlock16);
+  translate(zBlock16, -yBlock16/2 -yBlock13/2, zBlock16);
   translate(zBlock16/2, yBlock16/2+yBlock13/2, 0);
   rotateY(-theta[5]);
   translate(+xBlock16/2-zBlock16/2, 0, 0);
@@ -338,7 +341,7 @@ void drawRobot() {
 
   popMatrix();                                                                                                  // ritorno al sistema di riferimento memorizzato precedentemete
 
-  translate(zBlock16, 0, -zBlock16);
+  translate(zBlock16, -yBlock16/2 -yBlock13/2, -zBlock16);
   translate(zBlock16/2, yBlock16/2+yBlock13/2, 0);
   rotateY(theta[5]);
   translate(+xBlock16/2-zBlock16/2, 0, 0);
