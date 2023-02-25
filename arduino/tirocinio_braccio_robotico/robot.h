@@ -3,10 +3,10 @@
 
 #include <Servo.h>
 
-#define posInit1 90
-#define posInit2 53
-#define posInit3 138
-#define posInit4 169
+#define posInit1 91
+#define posInit2 48
+#define posInit3 156
+#define posInit4 162
 #define posInit5 0
 #define posInit6 65
 

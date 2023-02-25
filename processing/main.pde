@@ -11,15 +11,20 @@ int RECT_HEIGHT = 100;                                                          
 
 long lastTime;                                                                                                  // variabile per contenere le misure di millis()
 long MAX_TIME_LOOP = 10000;                                                                                     // tempo massimo per il ciclo di connessione prima di fallire
-long FRAMES_RATE = 100;                                                                                         // rate di invio delle coordinate tra un frame e l'altro in ms
+long FRAMES_RATE = 1;                                                                                           // rate di invio tra un frame e l'altro in ms
 
 boolean startFlag = false;                                                                                      // flag per l'inizio del ciclo draw()
 
+
 float x_d = 0;
-float y_d = 276;
-float z_d = 253;
-float B_d = 0;
+float y_d = 180;
+float z_d = 0;
+float B_d = 90;
 float W_d = 0;
+
+float time = 0;
+float t0 = 0;
+int step = 0;
 
 public enum Mod {
   MANUAL_CONTROL,                                                                                               // modalità che permette di controllare gli angoli dei motori manualmente
@@ -27,7 +32,7 @@ public enum Mod {
     INVERSE_KINEMATIC_MOD                                                                                       // modalità in cui il robot si muove secondo il calcolo della cinematica inversa
 }
 
-Mod ControlMod = Mod.INVERSE_KINEMATIC_MOD;                                                                     // flag per la modalità iniziale di controllo del robot
+Mod ControlMod = Mod.INVERSE_KINEMATIC_MOD;                                                                                 // flag per la modalità iniziale di controllo del robot
 
 
 
@@ -128,28 +133,40 @@ void draw() {
       thetaDenavitHartenberg[3] = -theta[3] + rad(90);
       thetaDenavitHartenberg[4] =  theta[4];
       
-      /* la comunicazione non avviene qui (riga 161)*/
+      serialSendFrame();  // Inivia i frames memorizzati (uno per ogni chiamata di questa funzione)
+      serialCheckACK();
+      /* la comunicazione non avviene qui (vedi riga 184)*/
     }
     
     
     else if (ControlMod == Mod.INVERSE_KINEMATIC_MOD) // Calcolo theta[](angolo dipendente) e realServoTheta[](angolo dipendente) a partire dal valore di thetaDenavitHartenberg[](angolo indipendente)
     {
-      //x_d = 150*sin(0.0001*millis());
-      //y_d = 150*sin(0.0003*millis());
-      //z_d = 253 + 32*sin(0.001*millis());
+      movimento(time);
+      time++;
+      
+      for(int i=0; i<5; i++) {
+        thetaDenHartOld[i] = thetaDenavitHartenberg[i];
+      }
+      
       thetaDenavitHartenberg = inverseKinematic(x_d, y_d, z_d, rad(B_d), rad(W_d));
       
+      if( cheakAngles( inverseKinematic(x_d, y_d, z_d, rad(B_d), rad(W_d))) == false )
+      {
+        for(int i=0; i<5; i++) {
+          thetaDenavitHartenberg[i] = thetaDenHartOld[i];
+        }
+      }
+           
       theta[0] =  thetaDenavitHartenberg[0] - rad(90);
       theta[1] = -thetaDenavitHartenberg[1];
       theta[2] = -thetaDenavitHartenberg[2];
       theta[3] = -thetaDenavitHartenberg[3] + rad(90);
       theta[4] =  thetaDenavitHartenberg[4];
-      theta[5] = rad(0);
 
       for (i=0; i<MOTORS_NUM; i++) 
       {
         realServoTheta[i] =  thetaSign[i]*theta[i] + thetaOffset[i];
-        //framesFile.println(int(deg(realServoTheta[i])));
+        framesFile.println(deg(realServoTheta[i]));
       }
       
       /* comunicazione */
@@ -165,15 +182,6 @@ void draw() {
     drawBall();    // disegna la pallina
     drawRobot();  // disegno lo scorbot
     
-    
-    // Timer non bloccante per 
-    if (ControlMod == Mod.FRAME_MOD) {
-      if (millis()-lastTime >= FRAMES_RATE) {
-        lastTime = millis();
-        serialSendFrame();  // Inivia i frames memorizzati (uno per ogni chiamata di questa funzione)
-      }
-      serialCheckACK();
-    }
   }
 }
 
@@ -199,8 +207,8 @@ void keyEvent() {
       positionFile.flush();
       positionFile.close();
       
-      //framesFile.flush();
-      //framesFile.close();
+      framesFile.flush();
+      framesFile.close();
       
       port.stop();  // interronpo la comunicazione con la porta corrente non essendo quella corretta
       exit();
@@ -239,6 +247,7 @@ void keyEvent() {
       {
       case MANUAL_CONTROL:
         ControlMod = Mod.FRAME_MOD;
+        framesCount = 0;
         break;
       case FRAME_MOD:
         ControlMod = Mod.INVERSE_KINEMATIC_MOD;
@@ -362,10 +371,23 @@ void keyEvent() {
       if (key == 'o' || key == 'o') 
       {
         W_d--;
+        if(W_d < -180) W_d = -180;
       }
       if (key == 'p' || key == 'P') 
       {
-        W_d++;
+        W_d++;      
+        if(W_d > 0) W_d = 0;
+      }
+      // apertura pinza
+      if (key == 'a' || key == 'A') 
+      {
+        theta[5] -= rad(1);
+        if(theta[5] < 0) theta[5] = 0;
+      }
+      if (key == 's' || key == 'S') 
+      {
+        theta[5] += rad(1);      
+        if(theta[5] > 65*PI/180) theta[5] = 65*PI/180;
       }
     }
   }
@@ -430,4 +452,129 @@ void printText() {  /* si occupa delle stampe a schermo delle possibili rapresen
     text("INVERSE_KINEMATIC_MOD", 150, 25+25*7);
     break;
   }
+}
+
+
+/* Questa funzione è servita in fase di sviluppo per campionare i dati (di questo movimento)
+ * all'interno del file "framesFile.txt"
+ */
+void movimento(float t) {
+  
+  
+  if(step == 0) {
+    x_d = -abs(180*sin(0.005*t));
+    y_d = abs(180*cos(0.005*t));
+    z_d = 20*(1-exp(-0.07*t));
+    
+    W_d = -130*(1-exp(-0.06*t));
+    theta[5] = rad(65)*(1-exp(-0.1*t));
+    
+    if( abs(theta[0] - rad(35)) < 0.01 ) {
+      step = 1;
+      t0 = t;
+    }
+  }
+  
+  if(step == 1) {
+    z_d = 20 - 0.3*(t-t0);
+    
+    if( abs(z_d - 1) < 0.1 ) {
+      step = 2;
+      t0 = t;
+    }
+  }
+  
+  if(step == 2) {
+    theta[5] = rad(65) - rad(1)*(t-t0);
+    
+    if( abs(theta[5] - rad(10)) < 0.01) {
+      step = 3;
+      t0 = t;
+    }
+  }
+  
+  if(step == 3) {
+    z_d = 0.3*(t-t0);
+    
+    if( abs(z_d - 20) < 0.3 ) {
+      step = 4;
+      t0 = t;
+    }
+  }
+  
+  if(step == 4) {
+    x_d = -abs(180*sin( 0.005*(t-t0) + rad(35) ));
+    y_d = abs(180*cos( 0.005*(t-t0) + rad(35) ));
+    
+    W_d = -130 + 41*(1-exp(-0.1*(t-t0)));
+    
+    if( abs(theta[0] - rad(90)) < rad(0.5) ) {
+      step = 5;
+      t0 = t;
+    }
+  }
+  
+  if(step == 5) {
+    theta[5] = rad(10) + rad(1)*(t-t0);
+    
+    if( abs(theta[5] - rad(65)) < rad(0.1) ) {
+      step = 6;
+      t0 = t;
+    }
+  }
+  
+  if(step == 6) {
+    x_d = -abs(180*sin( 0.005*(t-t0) + rad(89) ));
+    y_d = abs(180*cos( 0.005*(t-t0) + rad(89) ));
+    z_d = 20 - 20*(1-exp(-0.017*(t-t0)));
+    
+    W_d = -90 + 90*(1-exp(-0.017*(t-t0)));
+    theta[5] = rad(66) - rad(65)*(1-exp(-0.017*(t-t0)));
+    
+    
+    if( abs(theta[0] - rad(1)) < rad(0.5) ) {
+      step = 7;
+      t0 = t;
+    }
+  }
+   
+}
+
+boolean cheakAngles(float[] DenHartAngles) {
+  
+  boolean res = true;
+  
+  /* verifichiamo il range degli angoli*/
+  if( DenHartAngles[0] < 0 || DenHartAngles[0] > PI) 
+  {
+    res = false;
+  }
+  
+  if( DenHartAngles[1] < 0 || DenHartAngles[1] > PI)
+  {
+    res = false;
+  } 
+  
+  if( DenHartAngles[2] < -PI/2 || DenHartAngles[2] > PI/2)
+  {
+    res = false;
+  }
+  
+  if( DenHartAngles[3] < 0 || DenHartAngles[3] > PI)
+  {
+    res = false;
+  }
+  
+  if( DenHartAngles[4] < -PI || DenHartAngles[4] > 0)
+  {
+    res = false;
+  }
+  
+  /* verifichiamo la validità numerica */
+  for(int i=0; i<DOF; i++) {
+    if( Float.isNaN(DenHartAngles[i]) ) res = false;
+  }
+  
+  
+  return res;
 }

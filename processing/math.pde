@@ -7,6 +7,8 @@ int THETA_COLOR = #F2E442;
 int VAR_COLOR = #C1C1B9;
 int POS_COLOR = #2279F0;
 
+float[] tempDenHart = new float[DOF];
+float[] thetaDenHartOld = new float[DOF];
 float[] thetaDenavitHartenberg = new float[DOF];
 
 float[] inverseKinematic(float x_d, float y_d, float z_d, float B_d, float W_d) {

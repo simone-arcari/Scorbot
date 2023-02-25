@@ -93,13 +93,13 @@ float zOffsetM6 = 8;                                                            
 float yOffsetM6 = gearHeight-4;                                                                                 // 0.8cm
 
 // Pinza
-float xBlock16 = 40;                                                                                            // 4cm
+float xBlock16 = 20;//40;                                                                                            // 4cm
 float yBlock16 = 5;                                                                                             // 0.5cm
 float zBlock16 = 10;                                                                                            // 1cm
-float xBlock17 = 30;                                                                                            // 3cm
+float xBlock17 = 20; //30;                                                                                            // 3cm
 float yBlock17 = yBlock16;                                                                                      // 0.5cm
 float zBlock17 = zBlock16;                                                                                      // 1cm
-float xBlock18 = 35;                                                                                            // 3.5cm
+float xBlock18 = 25;//35;                                                                                            // 3.5cm
 float yBlock18 = yBlock16;                                                                                      // 0.5cm
 float zBlock18 = zBlock16;                                                                                      // 1cm
 
@@ -111,7 +111,7 @@ float offsetPinza = zBlock16/2*sin(omega);                                      
 int direction = 1;                                                                                              // verso rotazione motori per la modalità a controllo manuale
 int MOTORS_NUM = 6;                                                                                             // numero motori = numero di coordinate per ogni frames
 int FRAMES_NUM = 10 ;                                                                                           // numero massimo di frames(ogni frames ha sei coordinate)
-int[][] frames;                                                                                                 // matrice di frames / angoli
+int[][] frames;                                                                                               // matrice di frames / angoli
 int framesCount = 0;                                                                                            // contatore dei punti/frame presenti nella sequenza
 
 // Angoli d'interesse
@@ -126,7 +126,7 @@ float[] thetaOffset = {rad(90),rad(0),rad(90),rad(90),rad(0),rad(65)};
 // Parametri Scorbot
 float d1 = yBlock1+yBlock2/2+yOffsetM1+motorHeight/2+gearHeight+motorDepth/2;
 float d4 = 4;
-float d5 = 197;
+float d5 = 155.5;
 float l2 = 2*xBlock6-motorDepth+xBlock7/2;
 float l3 = -motorWidth/2+gearOffset+xBlock8+xBlock6-motorDepth/2;
 float a4 = 23.5;
