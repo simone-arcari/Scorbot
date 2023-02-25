@@ -1,5 +1,5 @@
 [message] --> port name = COM3
-[message] --> port reference = processing.serial.Serial@1d7bc698
+[message] --> port reference = processing.serial.Serial@650122aa
 [message] --> port available
 [message] --> id = ARO22ARL
 [message] --> porta trovata id corretto

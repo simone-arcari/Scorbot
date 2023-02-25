@@ -13,17 +13,12 @@ float[] thetaDenavitHartenberg = new float[DOF];
 
 float[] inverseKinematic(float x_d, float y_d, float z_d, float B_d, float W_d) {
   //******************************************************************************/
-  // La cinematica è stata inizialmente ricavata per un robot Scorbot con una 
-  // struttura diversa da quella del robot effettivamente utilizzato.
+  // La cinematica è stata ricavata per un robot Scorbot con una 
+  // struttura diversa da quella dello Scorbot classico.
   // Siccome la diferenza strutturale era relativa unicamente al montaggio 
   // dell'ultima estremità del braccio, formata dal motore 5 e 6 (si veda il 
-  // disegno del robot su processing per osservarne la forma), è stato possibile
-  // ovviare al difetto semplicemete aggendo sulle cordinate iniziali variandole
-  // in modo tale da farle coincidere effettivamente con la corretta posizione 
-  // prevista per la cinematica precedentemente progettata.
-  // Questo strataggemma funzione poiché la differenza strutturale consiste in
-  // una semplice traslazione della pinza rispetto al giunto 4 (motore4), per 
-  // tanto basta solo annulare questa traslazione
+  // disegno del robot su processing per osservarne la forma) la cinematica 
+  // è stata interamente riprogettata
   /******************************************************************************/
 
      //<>//

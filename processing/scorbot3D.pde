@@ -115,7 +115,7 @@ float[][] frames;                                                               
 int framesCount = 0;                                                                                            // contatore dei punti/frame presenti nella sequenza
 
 // Angoli d'interesse
-float alpha = 0;
+float alpha = rad(180);
 float beta = 0;
 float[] theta = new float[6];
 float[] realServoTheta = new float[6];

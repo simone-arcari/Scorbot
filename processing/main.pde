@@ -33,7 +33,7 @@ public enum Mod {
   INVERSE_KINEMATIC_MOD                                                                                         // modalità in cui il robot si muove secondo il calcolo della cinematica inversa
 }
 
-Mod ControlMod = Mod.FRAME_MOD-++;                                                                                 // flag per la modalità iniziale di controllo del robot
+Mod ControlMod = Mod.FRAME_MOD;                                                                                 // flag per la modalità iniziale di controllo del robot
 
 
 
@@ -64,8 +64,8 @@ void setup() {
   serialTryConnect();                                                                                           // tento di avviare la connessione seriale, in caso di fallimento termino il programma
   
   xBase = width/2;                                                                                              // coordinata x iniziale spazzio processing
-  yBase = 5*(height/6);                                                                                         // coordinata y iniziale spazzio processing
-  zBase = -180;                                                                                                 // coordinata z iniziale spazzio processing
+  yBase = 5*(height/7);                                                                                         // coordinata y iniziale spazzio processing
+  zBase = 100;                                                                                                  // coordinata z iniziale spazzio processing
 
   for (i=0; i<MOTORS_NUM; i++) {
     theta[i] = thetaInit[i];
