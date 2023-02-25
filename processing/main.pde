@@ -11,7 +11,8 @@ int RECT_HEIGHT = 100;                                                          
 
 long lastTime;                                                                                                  // variabile per contenere le misure di millis()
 long MAX_TIME_LOOP = 10000;                                                                                     // tempo massimo per il ciclo di connessione prima di fallire
-long FRAMES_RATE = 1;                                                                                           // rate di invio tra un frame e l'altro in ms
+
+int DIVISORE = 12;                                                                                              // il file che contiene i frames è stato campionato ad una frequenza elevata, ergo sono necessari meno frames di quelli memorizzati
 
 boolean startFlag = false;                                                                                      // flag per l'inizio del ciclo draw()
 
@@ -28,11 +29,11 @@ int step = 0;
 
 public enum Mod {
   MANUAL_CONTROL,                                                                                               // modalità che permette di controllare gli angoli dei motori manualmente
-    FRAME_MOD,                                                                                                  // modalità in cui il robot si muove secondo una serie di frames prefissati
-    INVERSE_KINEMATIC_MOD                                                                                       // modalità in cui il robot si muove secondo il calcolo della cinematica inversa
+  FRAME_MOD,                                                                                                    // modalità in cui il robot si muove secondo una serie di frames prefissati
+  INVERSE_KINEMATIC_MOD                                                                                         // modalità in cui il robot si muove secondo il calcolo della cinematica inversa
 }
 
-Mod ControlMod = Mod.INVERSE_KINEMATIC_MOD;                                                                                 // flag per la modalità iniziale di controllo del robot
+Mod ControlMod = Mod.FRAME_MOD-++;                                                                                 // flag per la modalità iniziale di controllo del robot
 
 
 
@@ -75,16 +76,16 @@ void setup() {
   try { // Provo a leggere i dati memorizzati nel file
     String[] linee = loadStrings("frames_data.txt");
     if (linee != null) { 
-      FRAMES_NUM = linee.length/MOTORS_NUM;
-      frames = new int[FRAMES_NUM][MOTORS_NUM]; 
+      FRAMES_NUM = linee.length/(MOTORS_NUM*DIVISORE);
+      frames = new float[FRAMES_NUM][MOTORS_NUM]; 
       
       for (i=0; i<FRAMES_NUM; i++) {        
-        frames[i][0] = int(linee[i*MOTORS_NUM]);
-        frames[i][1] = int(linee[i*MOTORS_NUM + 1]);
-        frames[i][2] = int(linee[i*MOTORS_NUM + 2]);
-        frames[i][3] = int(linee[i*MOTORS_NUM + 3]);
-        frames[i][4] = int(linee[i*MOTORS_NUM + 4]);
-        frames[i][5] = int(linee[i*MOTORS_NUM + 5]);
+        frames[i][0] = float(linee[DIVISORE*i*MOTORS_NUM]);
+        frames[i][1] = float(linee[DIVISORE*i*MOTORS_NUM + 1]);
+        frames[i][2] = float(linee[DIVISORE*i*MOTORS_NUM + 2]);
+        frames[i][3] = float(linee[DIVISORE*i*MOTORS_NUM + 3]);
+        frames[i][4] = float(linee[DIVISORE*i*MOTORS_NUM + 4]);
+        frames[i][5] = float(linee[DIVISORE*i*MOTORS_NUM + 5]);
       }
     }
   } catch (Exception e) { // In caso di errore/eccezione stampo lo StackTrace
@@ -166,7 +167,7 @@ void draw() {
       for (i=0; i<MOTORS_NUM; i++) 
       {
         realServoTheta[i] =  thetaSign[i]*theta[i] + thetaOffset[i];
-        framesFile.println(deg(realServoTheta[i]));
+        //framesFile.println(deg(realServoTheta[i]));
       }
       
       /* comunicazione */
@@ -207,8 +208,8 @@ void keyEvent() {
       positionFile.flush();
       positionFile.close();
       
-      framesFile.flush();
-      framesFile.close();
+      //framesFile.flush();
+      //framesFile.close();
       
       port.stop();  // interronpo la comunicazione con la porta corrente non essendo quella corretta
       exit();

@@ -151,8 +151,8 @@ void serialSendFrame() {
 
     for (j=0; j<MOTORS_NUM; j++) 
     {
-      realServoTheta[j] = rad(float(frames[framesCount][j]));
-      point_ascii = Integer.toString(frames[framesCount][j]);
+      realServoTheta[j] = rad(frames[framesCount][j]);
+      point_ascii = Integer.toString(int(frames[framesCount][j]));
 
       if (point_ascii.length() == 2)
       {
