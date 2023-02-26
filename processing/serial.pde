@@ -98,7 +98,7 @@ boolean checkPortName(String name) {
  * Invia gli angoli da far attuare ai servomotori:
  * prima comunica il codice identificativo di questo programma (PROCESSING_ID)
  * successivamente comunica i 6 angoli nella loro rappresentazione a caratteri
- * Se un numero ha mene di tre cifre intere (come 7°) viene inviata sempre
+ * Se un numero ha meno di tre cifre intere (come 7°) viene inviata sempre
  * una stringa da tre caratteri (come "007") per motivi di compatibilità 
  * è semplicità di ricezione dei dati.
  */
@@ -134,7 +134,7 @@ void serialSendPositions(float[] angle) {
  * Invia gli angoli da far attuare ai servomotori memorizzati nella matrice frames[][]
  * prima comunica il codice identificativo di questo programma (PROCESSING_ID)
  * successivamente comunica i 6 angoli nella loro rappresentazione a caratteri
- * Se un numero ha mene di tre cifre intere (come 7°) viene inviata sempre
+ * Se un numero ha meno di tre cifre intere (come 7°) viene inviata sempre
  * una stringa da tre caratteri (come "007") per motivi di compatibilità 
  * è semplicità di ricezione dei dati.
  * La matrice frames[FRAMES_NUM][MOTORS_NUM] per ogni indice di FRAMES_NUM 
