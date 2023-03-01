@@ -100,7 +100,7 @@ boolean checkPortName(String name) {
  * successivamente comunica i 6 angoli nella loro rappresentazione a caratteri
  * Se un numero ha meno di tre cifre intere (come 7°) viene inviata sempre
  * una stringa da tre caratteri (come "007") per motivi di compatibilità 
- * è semplicità di ricezione dei dati.
+ * d semplicità nella ricezione dei dati.
  */
 void serialSendPositions(float[] angle) {
   if (ack_flag == true) 
@@ -136,7 +136,7 @@ void serialSendPositions(float[] angle) {
  * successivamente comunica i 6 angoli nella loro rappresentazione a caratteri
  * Se un numero ha meno di tre cifre intere (come 7°) viene inviata sempre
  * una stringa da tre caratteri (come "007") per motivi di compatibilità 
- * è semplicità di ricezione dei dati.
+ * e semplicità nella ricezione dei dati.
  * La matrice frames[FRAMES_NUM][MOTORS_NUM] per ogni indice di FRAMES_NUM 
  * contine 6 angoli da attuare, l'indice usato per FRAMES_NUM è framesCount e viene
  * incrementato ad ogni chiamata di questa funzione.
